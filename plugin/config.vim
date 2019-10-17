@@ -185,4 +185,9 @@ set listchars=tab:»\ ,trail:~,extends:<,nbsp:.
 "set listchars=tab:>.,trail:~,extends:<,nbsp:.
 "set listchars=tab:> ,trail:~,extends:<,nbsp:.
 
+set grepprg=grep
+
+" tracelog
+let g:tracelog_default_dir = $HOME . "/script/trace-wad/"
+
 " vim:set ft=vim et sw=2:
