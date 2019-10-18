@@ -190,4 +190,115 @@ set grepprg=grep
 " tracelog
 let g:tracelog_default_dir = $HOME . "/script/trace-wad/"
 
+" Key maps {{{1
+    " Bother when termopen and input space cause a little pause-stop-wait
+    "let mapleader = "\<Space>"
+    " Bother when in select-mode and use the leader not works, so also provide another leader
+    " Space can be a bit tricky. Why not just map space to <leader>
+    let mapleader = ","
+    nmap <space> <leader>
+
+    " diable Ex mode
+    map Q <Nop>
+
+    "" Stop that stupid window from popping up
+    "map q: :q
+    nmap ql :ls<cr>
+    nmap qw :R! ~/tools/dict <C-R>=expand('<cword>') <cr>
+
+    "" Disable F1 built-in help key by: re-replace last search
+    "map <F1> :<c-u>%s///gc<cr>
+    "imap <F1> :<c-u>%s//<C-R>0/gc<cr>
+
+    " map <leader><Esc> :AnsiEsc<cr>
+    nnoremap <C-c> <silent> <C-c>
+    nnoremap <buffer> <Enter> <C-W><Enter>
+    nnoremap <C-q> :<c-u>qa!<cr>
+
+    nnoremap <C-s> :ToggleWorkspace<cr>
+    " restore-session: vim -S
+    "nnoremap <C-s> :Obsess
+    "nnoremap <C-s> :Savews<cr>
+
+    inoremap <S-Tab> <C-V><Tab>
+
+    if exists('g:loaded_accelerated')
+        " Accelerated_jk
+        " when wrap, move by virtual row
+        "let g:accelerated_jk_enable_deceleration = 1
+        let g:accelerated_jk_acceleration_table = [1,2,3]
+
+        nmap j <Plug>(accelerated_jk_gj)
+        nmap k <Plug>(accelerated_jk_gk)
+        "nmap j <Plug>(accelerated_jk_gj_position)
+        "nmap k <Plug>(accelerated_jk_gk_position)
+    else
+        nnoremap j gj
+        nnoremap k gk
+    endif
+
+
+    " vp doesn't replace paste buffer
+    function! RestoreRegister()
+        let @" = s:restore_reg
+        let @+ = s:restore_reg | " sometime other plug use this register as paste-buffer
+        return ''
+    endfunction
+    function! s:Repl()
+        let s:restore_reg = @"
+        return "p@=RestoreRegister()\<cr>"
+    endfunction
+    vnoremap <silent> <expr> p <sid>Repl()
+
+    nnoremap <silent> <a-o> <C-o>
+    nnoremap <silent> <a-i> <C-i>
+
+
+    " Substitue for MaboXterm diable <c-h>
+    nnoremap <leader>h <c-w>h
+    nnoremap <leader>j <c-w>j
+    nnoremap <leader>k <c-w>k
+    nnoremap <leader>l <c-w>l
+
+    " Replace by vim-tmux-navigator
+    "nnoremap <c-h> <c-w>h
+    "nnoremap <c-j> <c-w>j
+    "nnoremap <c-k> <c-w>k
+    "nnoremap <c-l> <c-w>l
+
+    if has("nvim")
+        let b:terminal_scrollback_buffer_size = 2000
+        let g:terminal_scrollback_buffer_size = 2000
+
+        " i: enter interact-mode, 'esc' exit interact-mode and enter vi-mode
+        " But so far conflict with gdb mode
+        "tnoremap <Esc> <C-\><C-n>
+        tnoremap <leader>h <C-\><C-n><c-w>h
+        tnoremap <leader>j <C-\><C-n><c-w>j
+        tnoremap <leader>k <C-\><C-n><c-w>k
+        tnoremap <leader>l <C-\><C-n><c-w>l
+
+        tnoremap <c-h> <C-\><C-n><C-w>h
+        tnoremap <c-j> <C-\><C-n><C-w>j
+        tnoremap <c-k> <C-\><C-n><C-w>k
+        tnoremap <c-l> <C-\><C-n><C-w>l
+    endif
+
+    " Automatically jump to end of text you pasted
+    "vnoremap <silent> y y`]
+    vnoremap <silent> p p`]
+    nnoremap <silent> p p`]
+    " Paste in insert mode
+    inoremap <silent> <a-p> <c-r>"
+
+    "nnoremap <silent> <a-n> :lnext<cr>
+    "nnoremap <silent> <a-p> :lpre<cr>
+    nnoremap <silent> <c-n> :cn<cr>
+    nnoremap <silent> <c-p> :cp<cr>
+
+    nnoremap <silent> <leader>n :cn<cr>
+    nnoremap <silent> <leader>p :cp<cr>
+
+"}}}
+
 " vim:set ft=vim et sw=2:
