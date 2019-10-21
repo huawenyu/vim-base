@@ -301,4 +301,4 @@ let g:tracelog_default_dir = $HOME . "/script/trace-wad/"
 
 "}}}
 
-" vim:set ft=vim et sw=2:
+" vim:set ft=vim et sw=4:
