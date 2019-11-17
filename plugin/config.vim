@@ -14,8 +14,8 @@ endif
 "  set term=xterm-256color
 "endif
 
-set nocompatible
 set guifont=Liberation\ Mono\ 13
+scriptencoding utf-8
 
 if has('autocmd')
   filetype plugin indent on
@@ -32,6 +32,10 @@ set ttyfast  " u got a fast terminal
 set lazyredraw " to avoid scrolling problems
 "set autoread
 
+set tabpagemax=15
+set showmode
+set linespace=0
+set winminheight=0
 
 " Vim status bar prediction/completion
 "set wildmode=longest,list,full
@@ -91,7 +95,8 @@ set undolevels=1000
 "set shortmess+=a
 "set shortmess=atI
 "set shortmess-=oO
-set shortmess=aoOtTI
+"set shortmess=aoOtTI
+set shortmess+=filmnrxoOtT  " Abbrev. of messages (avoids 'hit enter')
 "set paste           " conflict with auto-pairs, delimitmate, auto-close plugin
 "set showcmd
 set cmdheight=2    " fix: Vim asks me 'Press Enter or type command to continue' at startup.
@@ -130,9 +135,12 @@ set softtabstop=4
 set textwidth=180
 set noexpandtab
 
+"set iskeyword-=.                    " '.' is an end of word designator
+"set iskeyword-=#                    " '#' is an end of word designator
+"set iskeyword-=-                    " '-' is an end of word designator
 
 set wildignorecase
-" which will cause vimgrep ignore
+" vimgrep ignore
 set wildignore+=*.so,*.swp,*.zip,*/vendor/*,*/\.git/*,*/\.svn/*,objd/**,obj/**,*.tmp
 set wildignore+=*.o,*.obj,.hg,*.pyc,.git,*.rej,*.orig,*.gcno,*.rbc,*.class,.svn,coverage/*,vendor
 set wildignore+=*.gif,*.png,*.map
@@ -222,7 +230,7 @@ let g:tracelog_default_dir = $HOME . "/script/trace-wad/"
 
     inoremap <S-Tab> <C-V><Tab>
 
-    if exists('g:loaded_accelerated')
+    if CheckPlug('accelerated-jk', 0)
         " Accelerated_jk
         " when wrap, move by virtual row
         "let g:accelerated_jk_enable_deceleration = 1
@@ -284,6 +292,18 @@ let g:tracelog_default_dir = $HOME . "/script/trace-wad/"
         tnoremap <c-l> <C-\><C-n><C-w>l
     endif
 
+    " For when you forget to sudo.. Really Write the file.
+    cmap w!! w !sudo tee % >/dev/null
+
+    " Adjust viewports to the same size
+    map <Leader>= <C-w>=
+
+    "" FIXME: Revert this f70be548
+    "" fullscreen mode for GVIM and Terminal, need 'wmctrl' in you PATH
+    "map <silent> <F11> :call system("wmctrl -ir " . v:windowid . " -b toggle,fullscreen")<CR>
+
+    " Yank from the cursor to the end of the line, to be consistent with C and D.
+    nnoremap Y y$
     " Automatically jump to end of text you pasted
     "vnoremap <silent> y y`]
     vnoremap <silent> p p`]
