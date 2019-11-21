@@ -51,8 +51,8 @@ set synmaxcol=200
 
 "set t_Co=256
 set background=dark
-colorscheme holokai
-"
+colorscheme holokai     | "Plug 'vim-scripts/holokai'
+
 "colorscheme badwolf
 "colorscheme distinguished
 "colorscheme darkspectrum
@@ -292,8 +292,9 @@ let g:tracelog_default_dir = $HOME . "/script/trace-wad/"
         tnoremap <c-l> <C-\><C-n><C-w>l
     endif
 
-    " For when you forget to sudo.. Really Write the file.
-    cmap w!! w !sudo tee % >/dev/null
+    "[Cause command mode pause when press 'w', note:map](https://stackoverflow.com/questions/2600783/how-does-the-vim-write-with-sudo-trick-work)
+    "For when you forget to sudo.. Really Write the file.
+    "cmap w!! w !sudo tee % >/dev/null
 
     " Adjust viewports to the same size
     map <Leader>= <C-w>=
