@@ -141,7 +141,7 @@ set noexpandtab
 
 set wildignorecase
 " vimgrep ignore
-set wildignore+=*.so,*.swp,*.zip,*/vendor/*,*/\.git/*,*/\.svn/*,objd/**,obj/**,*.tmp
+set wildignore+=*.so,*.swp,*.zip,*/vendor/*,*/\.git/*,*/\.svn/*,objd/**,obj/**,*/tmp/*,*.tmp
 set wildignore+=*.o,*.obj,.hg,*.pyc,.git,*.rej,*.orig,*.gcno,*.rbc,*.class,.svn,coverage/*,vendor
 set wildignore+=*.gif,*.png,*.map
 set wildignore+=*.d
@@ -294,7 +294,7 @@ let g:tracelog_default_dir = $HOME . "/script/trace-wad/"
 
     "[Cause command mode pause when press 'w', note:map](https://stackoverflow.com/questions/2600783/how-does-the-vim-write-with-sudo-trick-work)
     "For when you forget to sudo.. Really Write the file.
-    "cmap w!! w !sudo tee % >/dev/null
+    cmap <C-w> w !sudo tee % >/dev/null
 
     " Adjust viewports to the same size
     map <Leader>= <C-w>=
