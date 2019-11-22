@@ -258,15 +258,18 @@ let g:tracelog_default_dir = $HOME . "/script/trace-wad/"
     endfunction
     vnoremap <silent> <expr> p <sid>Repl()
 
+    " Alt+HJKL   move around tmux pane
+    " Ctrl+HJKL  move around vim-window/tmux-pane
     nnoremap <silent> <a-o> <C-o>
     nnoremap <silent> <a-i> <C-i>
 
 
+    " Reserve to quick-jump
     " Substitue for MaboXterm diable <c-h>
-    nnoremap <leader>h <c-w>h
-    nnoremap <leader>j <c-w>j
-    nnoremap <leader>k <c-w>k
-    nnoremap <leader>l <c-w>l
+    "nnoremap <leader>h <c-w>h
+    "nnoremap <leader>j <c-w>j
+    "nnoremap <leader>k <c-w>k
+    "nnoremap <leader>l <c-w>l
 
     " Replace by vim-tmux-navigator
     "nnoremap <c-h> <c-w>h
@@ -281,10 +284,11 @@ let g:tracelog_default_dir = $HOME . "/script/trace-wad/"
         " i: enter interact-mode, 'esc' exit interact-mode and enter vi-mode
         " But so far conflict with gdb mode
         "tnoremap <Esc> <C-\><C-n>
-        tnoremap <leader>h <C-\><C-n><c-w>h
-        tnoremap <leader>j <C-\><C-n><c-w>j
-        tnoremap <leader>k <C-\><C-n><c-w>k
-        tnoremap <leader>l <C-\><C-n><c-w>l
+        "
+        "tnoremap <leader>h <C-\><C-n><c-w>h
+        "tnoremap <leader>j <C-\><C-n><c-w>j
+        "tnoremap <leader>k <C-\><C-n><c-w>k
+        "tnoremap <leader>l <C-\><C-n><c-w>l
 
         tnoremap <c-h> <C-\><C-n><C-w>h
         tnoremap <c-j> <C-\><C-n><C-w>j
