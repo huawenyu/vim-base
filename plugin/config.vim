@@ -295,6 +295,9 @@ let g:tracelog_default_dir = $HOME . "/script/trace-wad/"
     "[Cause command mode pause when press 'w', note:map](https://stackoverflow.com/questions/2600783/how-does-the-vim-write-with-sudo-trick-work)
     "For when you forget to sudo.. Really Write the file.
     cmap <C-w> w !sudo tee % >/dev/null
+    " Show current color's name: zS show syntax[vim-scriptease]
+    nnoremap zC :echomsg synIDattr(synIDtrans(synID(line("."), col("."), 1)), "name")<cr>
+    nnoremap zc :echomsg synIDattr(synIDtrans(synID(line("."), col("."), 1)), "fg")<cr>
 
     " Adjust viewports to the same size
     map <Leader>= <C-w>=
