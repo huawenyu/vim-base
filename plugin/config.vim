@@ -1,4 +1,6 @@
 " Version:      1.2
+" https://github.com/spf13/spf13-vim
+" https://github.com/skywind3000/vim-init
 
 if exists('g:loaded_mybasic') || &compatible
   finish
@@ -7,15 +9,27 @@ else
 endif
 
 "if has("nvim")
-"  let base16colorspace=256
-"  let $NVIM_TUI_ENABLE_TRUE_COLOR=0
-"  set synmaxcol=2048
+"    let base16colorspace=256
+"    let $NVIM_TUI_ENABLE_TRUE_COLOR=0
+"    set synmaxcol=2048
 "else
-"  set term=xterm-256color
+"    set term=xterm-256color
 "endif
 
 set guifont=Liberation\ Mono\ 13
 scriptencoding utf-8
+
+set formatoptions+=m
+set formatoptions+=B
+set ffs=unix,dos,mac
+
+if exists("g:vim_confi_option") && g:vim_confi_option.folding
+    if has('folding')
+        set foldenable
+        set fdm=indent
+        set foldlevel=99
+    endif
+endif
 
 if has('autocmd')
   filetype plugin indent on
@@ -28,9 +42,13 @@ endif
 set t_md=
 set t_vb=
 set hidden
-set ttyfast  " u got a fast terminal
-set lazyredraw " to avoid scrolling problems
+set ttyfast     | " u got a fast terminal
+set lazyredraw  | " to avoid scrolling problems
 "set autoread
+set bs=eol,start,indent     | " set backspace pass another line
+
+set showmatch
+set matchtime=2     | " set match's seconds
 
 set tabpagemax=15
 set showmode
@@ -51,7 +69,7 @@ set synmaxcol=200
 
 "set t_Co=256
 set background=dark
-colorscheme holokai     | "Plug 'vim-scripts/holokai'
+colorscheme holokai     | "Come from Plug 'vim-scripts/holokai'
 
 "colorscheme badwolf
 "colorscheme distinguished
@@ -84,6 +102,8 @@ set foldmethod=manual
 "set cinoptions=:0,l1,t0,g0,(0
 "}
 
+set winaltkeys=no   " Vim will use Alt, so disable windows ALT trigger menu
+
 set ignorecase
 set smartcase
 set hlsearch
@@ -91,6 +111,12 @@ set incsearch
 
 set history=1000
 set undolevels=1000
+
+if has('multi_byte')
+    set encoding=utf-8      " set inner code
+    "set fileencoding=utf-8  " set file default encode
+    set fileencodings=ucs-bom,utf-8,gbk,gb18030,big5,euc-jp,latin1      " open file decode orders
+endif
 
 "set shortmess+=a
 "set shortmess=atI
@@ -139,12 +165,29 @@ set noexpandtab
 "set iskeyword-=#                    " '#' is an end of word designator
 "set iskeyword-=-                    " '-' is an end of word designator
 
+set suffixes=.bak,~,.o,.h,.info,.swp,.obj,.pyc,.pyo,.egg-info,.class
 set wildignorecase
 " vimgrep ignore
 set wildignore+=*.so,*.swp,*.zip,*/vendor/*,*/\.git/*,*/\.svn/*,objd/**,obj/**,*/tmp/*,*.tmp
 set wildignore+=*.o,*.obj,.hg,*.pyc,.git,*.rej,*.orig,*.gcno,*.rbc,*.class,.svn,coverage/*,vendor
 set wildignore+=*.gif,*.png,*.map
 set wildignore+=*.d
+set wildignore=*.o,*.obj,*~,*.exe,*.a,*.pdb,*.lib "stuff to ignore when tab completing
+set wildignore+=*.so,*.dll,*.swp,*.egg,*.jar,*.class,*.pyc,*.pyo,*.bin,*.dex
+set wildignore+=*.zip,*.7z,*.rar,*.gz,*.tar,*.gzip,*.bz2,*.tgz,*.xz    " MacOSX/Linux
+set wildignore+=*DS_Store*,*.ipch
+set wildignore+=*.gem
+set wildignore+=*.png,*.jpg,*.gif,*.bmp,*.tga,*.pcx,*.ppm,*.img,*.iso
+set wildignore+=*.so,*.swp,*.zip,*/.Trash/**,*.pdf,*.dmg,*/.rbenv/**
+set wildignore+=*/.nx/**,*.app,*.git,.git
+set wildignore+=*.wav,*.mp3,*.ogg,*.pcm
+set wildignore+=*.mht,*.suo,*.sdf,*.jnlp
+set wildignore+=*.chm,*.epub,*.pdf,*.mobi,*.ttf
+set wildignore+=*.mp4,*.avi,*.flv,*.mov,*.mkv,*.swf,*.swc
+set wildignore+=*.ppt,*.pptx,*.docx,*.xlt,*.xls,*.xlsx,*.odt,*.wps
+set wildignore+=*.msi,*.crx,*.deb,*.vfd,*.apk,*.ipa,*.bin,*.msu
+set wildignore+=*.gba,*.sfc,*.078,*.nds,*.smd,*.smc
+set wildignore+=*.linux2,*.win32,*.darwin,*.freebsd,*.linux,*.android
 
 " viminfo {{{2}}}
  " Tell vim to remember certain things when we exit
@@ -199,16 +242,6 @@ set grepprg=grep
 let g:tracelog_default_dir = $HOME . "/script/trace-wad/"
 
 " Key maps {{{1
-    " Bother when termopen and input space cause a little pause-stop-wait
-    "let mapleader = "\<Space>"
-    " Bother when in select-mode and use the leader not works, so also provide another leader
-    " Space can be a bit tricky. Why not just map space to <leader>
-    let mapleader = ","
-    nmap <space> <leader>
-
-    " diable Ex mode
-    map Q <Nop>
-
     "" Stop that stupid window from popping up
     "map q: :q
     nmap ql :ls<cr>
@@ -223,27 +256,10 @@ let g:tracelog_default_dir = $HOME . "/script/trace-wad/"
     nnoremap <buffer> <Enter> <C-W><Enter>
     nnoremap <C-q> :<c-u>qa!<cr>
 
-    nnoremap <C-s> :ToggleWorkspace<cr>
-    " restore-session: vim -S
-    "nnoremap <C-s> :Obsess
-    "nnoremap <C-s> :Savews<cr>
-
     inoremap <S-Tab> <C-V><Tab>
 
-    if CheckPlug('accelerated-jk', 0)
-        " Accelerated_jk
-        " when wrap, move by virtual row
-        "let g:accelerated_jk_enable_deceleration = 1
-        let g:accelerated_jk_acceleration_table = [1,2,3]
-
-        nmap j <Plug>(accelerated_jk_gj)
-        nmap k <Plug>(accelerated_jk_gk)
-        "nmap j <Plug>(accelerated_jk_gj_position)
-        "nmap k <Plug>(accelerated_jk_gk_position)
-    else
-        nnoremap j gj
-        nnoremap k gk
-    endif
+    nnoremap j gj
+    nnoremap k gk
 
 
     " vp doesn't replace paste buffer
