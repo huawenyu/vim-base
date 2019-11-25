@@ -2,10 +2,10 @@
 " https://github.com/spf13/spf13-vim
 " https://github.com/skywind3000/vim-init
 
-if exists('g:loaded_mybasic') || &compatible
+if exists('g:loaded_local_basic') || &compatible
   finish
 else
-  let g:loaded_mybasic = 'yes'
+  let g:loaded_local_basic = 'yes'
 endif
 
 "if has("nvim")
@@ -35,7 +35,7 @@ if has('autocmd')
   filetype plugin indent on
 endif
 if has('syntax') && !exists('g:syntax_on')
-  syntax enable
+    syntax enable
 endif
 
 " Disable any use of bold fonts
@@ -189,160 +189,5 @@ set wildignore+=*.msi,*.crx,*.deb,*.vfd,*.apk,*.ipa,*.bin,*.msu
 set wildignore+=*.gba,*.sfc,*.078,*.nds,*.smd,*.smc
 set wildignore+=*.linux2,*.win32,*.darwin,*.freebsd,*.linux,*.android
 
-" viminfo {{{2}}}
- " Tell vim to remember certain things when we exit
- "  !    :  The uppercase global VARIABLE will saved
- "  '30  :  marks will be remembered for up to 10 previously edited files
- "  "300 :  will save up to 100 lines for each register
- "  :30  :  up to 20 lines of command-line history will be remembered
- "  %    :  saves and restores the buffer list
- "  n... :  where to save the viminfo files,
- "            here save to /tmp means we have another viminfo manager 'workspace'
-if has("nvim")
-  set viminfo=!,'30,\"30,:30,%,n~/.nviminfo
-else
-  "set viminfo=!,'30,\"300,:30,%,n/tmp/viminfo
-  set viminfo='30,\"30,:30,n~/.viminfo
-endif
-
-
-hi CursorLine guibg=Grey40
-"hi CursorLine cterm=NONE ctermbg=darkred ctermfg=white guibg=darkred guifg=white
-hi Visual term=reverse cterm=reverse guibg=Grey
-
-"hi MatchParen cterm=bold ctermfg=cyan
-"hi MatchParen cterm=none ctermbg=green ctermfg=none
-"hi MatchParen cterm=none ctermbg=green ctermfg=blue
-hi MatchParen cterm=bold ctermbg=none ctermfg=magenta
-
-" change highlight color for search hits
-"hi Search guibg=peru guifg=wheat
-"hi Search ctermfg=grey ctermbg=darkblue cterm=NONE
-hi Search ctermfg=Red ctermbg=NONE cterm=NONE
-
-"hi TabLineFill ctermfg=Black ctermbg=Green cterm=NONE
-hi TabLine ctermfg=DarkBlue ctermbg=NONE cterm=NONE
-hi TabLineSel ctermfg=Red ctermbg=NONE cterm=NONE
-hi TabLineFill ctermfg=NONE ctermbg=NONE cterm=NONE
-
-"hi NonText ctermfg=7 guifg=Gray
-hi NonText ctermfg=DarkGrey guifg=DarkGrey
-hi clear SpecialKey
-hi link SpecialKey NonText
-
-" The characters after tab is U+2002. in vim with Ctrl-v u 2 0 0 2 (in insert mode).
-set listchars=tab:»\ ,trail:~,extends:<,nbsp:.
-"set listchars=nbsp:.,tab:>-,trail:~,extends:>,precedes:<
-"set listchars=tab:>.,trail:~,extends:<,nbsp:.
-"set listchars=tab:> ,trail:~,extends:<,nbsp:.
-
-set grepprg=grep
-
-" tracelog
-let g:tracelog_default_dir = $HOME . "/script/trace-wad/"
-
-" Key maps {{{1
-    "" Stop that stupid window from popping up
-    "map q: :q
-    nmap ql :ls<cr>
-    nmap qw :R! ~/tools/dict <C-R>=expand('<cword>') <cr>
-
-    "" Disable F1 built-in help key by: re-replace last search
-    "map <F1> :<c-u>%s///gc<cr>
-    "imap <F1> :<c-u>%s//<C-R>0/gc<cr>
-
-    " map <leader><Esc> :AnsiEsc<cr>
-    nnoremap <C-c> <silent> <C-c>
-    nnoremap <buffer> <Enter> <C-W><Enter>
-    nnoremap <C-q> :<c-u>qa!<cr>
-
-    inoremap <S-Tab> <C-V><Tab>
-
-    nnoremap j gj
-    nnoremap k gk
-
-
-    " vp doesn't replace paste buffer
-    function! RestoreRegister()
-        let @" = s:restore_reg
-        let @+ = s:restore_reg | " sometime other plug use this register as paste-buffer
-        return ''
-    endfunction
-    function! s:Repl()
-        let s:restore_reg = @"
-        return "p@=RestoreRegister()\<cr>"
-    endfunction
-    vnoremap <silent> <expr> p <sid>Repl()
-
-    " Alt+HJKL   move around tmux pane
-    " Ctrl+HJKL  move around vim-window/tmux-pane
-    nnoremap <silent> <a-o> <C-o>
-    nnoremap <silent> <a-i> <C-i>
-
-
-    " Reserve to quick-jump
-    " Substitue for MaboXterm diable <c-h>
-    "nnoremap <leader>h <c-w>h
-    "nnoremap <leader>j <c-w>j
-    "nnoremap <leader>k <c-w>k
-    "nnoremap <leader>l <c-w>l
-
-    " Replace by vim-tmux-navigator
-    "nnoremap <c-h> <c-w>h
-    "nnoremap <c-j> <c-w>j
-    "nnoremap <c-k> <c-w>k
-    "nnoremap <c-l> <c-w>l
-
-    if has("nvim")
-        let b:terminal_scrollback_buffer_size = 2000
-        let g:terminal_scrollback_buffer_size = 2000
-
-        " i: enter interact-mode, 'esc' exit interact-mode and enter vi-mode
-        " But so far conflict with gdb mode
-        "tnoremap <Esc> <C-\><C-n>
-        "
-        "tnoremap <leader>h <C-\><C-n><c-w>h
-        "tnoremap <leader>j <C-\><C-n><c-w>j
-        "tnoremap <leader>k <C-\><C-n><c-w>k
-        "tnoremap <leader>l <C-\><C-n><c-w>l
-
-        tnoremap <c-h> <C-\><C-n><C-w>h
-        tnoremap <c-j> <C-\><C-n><C-w>j
-        tnoremap <c-k> <C-\><C-n><C-w>k
-        tnoremap <c-l> <C-\><C-n><C-w>l
-    endif
-
-    "[Cause command mode pause when press 'w', note:map](https://stackoverflow.com/questions/2600783/how-does-the-vim-write-with-sudo-trick-work)
-    "For when you forget to sudo.. Really Write the file.
-    cmap <C-w> w !sudo tee % >/dev/null
-    " Show current color's name: zS show syntax[vim-scriptease]
-    nnoremap zC :echomsg synIDattr(synIDtrans(synID(line("."), col("."), 1)), "name")<cr>
-    nnoremap zc :echomsg synIDattr(synIDtrans(synID(line("."), col("."), 1)), "fg")<cr>
-
-    " Adjust viewports to the same size
-    map <Leader>= <C-w>=
-
-    "" FIXME: Revert this f70be548
-    "" fullscreen mode for GVIM and Terminal, need 'wmctrl' in you PATH
-    "map <silent> <F11> :call system("wmctrl -ir " . v:windowid . " -b toggle,fullscreen")<CR>
-
-    " Yank from the cursor to the end of the line, to be consistent with C and D.
-    nnoremap Y y$
-    " Automatically jump to end of text you pasted
-    "vnoremap <silent> y y`]
-    vnoremap <silent> p p`]
-    nnoremap <silent> p p`]
-    " Paste in insert mode
-    inoremap <silent> <a-p> <c-r>"
-
-    "nnoremap <silent> <a-n> :lnext<cr>
-    "nnoremap <silent> <a-p> :lpre<cr>
-    nnoremap <silent> <c-n> :cn<cr>
-    nnoremap <silent> <c-p> :cp<cr>
-
-    nnoremap <silent> <leader>n :cn<cr>
-    nnoremap <silent> <leader>p :cp<cr>
-
-"}}}
 
 " vim:set ft=vim et sw=4:
