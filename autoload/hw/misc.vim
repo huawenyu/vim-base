@@ -1,4 +1,12 @@
-
+if exists('*strcharpart')
+    function! hw#misc#Strcharpart(...) abort "{{{3
+        return call(function('strcharpart'), a:000)
+    endf
+else
+    function! hw#misc#Strcharpart(...) abort "{{{3
+        return call(function('strpart'), a:000)
+    endf
+endif
 
 " :display: tlib#selection#GetSelection(mode, ?mbeg="'<", ?mend="'>", ?opmode='selection')
 " mode can be one of: selection, lines, block
@@ -21,13 +29,13 @@ function! hw#misc#GetSelection(mode, ...) range
     " TLogVAR len(text[-1])
     if opmode == 'block'
         let clen = c1 - c0
-        call map(text, 'tlib#string#Strcharpart(v:val, c0, clen)')
+        call map(text, 'hw#misc#Strcharpart(v:val, c0, clen)')
     elseif opmode == 'selection'
         if c1 > 1
-            let text[-1] = tlib#string#Strcharpart(text[-1], 0, c1 - (a:mode == 'o' || c1 > len(text[-1]) ? 0 : 1))
+            let text[-1] = hw#misc#Strcharpart(text[-1], 0, c1 - (a:mode == 'o' || c1 > len(text[-1]) ? 0 : 1))
         endif
         if c0 > 1
-            let text[0] = tlib#string#Strcharpart(text[0], c0 - 1)
+            let text[0] = hw#misc#Strcharpart(text[0], c0 - 1)
         endif
     endif
     return text
