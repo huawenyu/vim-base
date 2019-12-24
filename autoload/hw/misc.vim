@@ -1,3 +1,9 @@
+if !exists("s:init")
+    let s:init = 1
+    silent! let s:log = logger#getLogger(expand('<sfile>:t'))
+endif
+
+
 if exists('*strcharpart')
     function! hw#misc#Strcharpart(...) abort "{{{3
         return call(function('strcharpart'), a:000)
@@ -11,6 +17,8 @@ endif
 " :display: tlib#selection#GetSelection(mode, ?mbeg="'<", ?mend="'>", ?opmode='selection')
 " mode can be one of: selection, lines, block
 function! hw#misc#GetSelection(mode, ...) range
+    let l:__func__ = "hw#misc#GetSelection() "
+
     if a:0 >= 2
         let mbeg = a:1
         let mend = a:2
@@ -24,9 +32,10 @@ function! hw#misc#GetSelection(mode, ...) range
     let text = getline(l0, l1)
     let c0   = col(mbeg)
     let c1   = col(mend)
-    " TLogVAR mbeg, mend, opmode, l0, l1, c0, c1
-    " TLogVAR text[-1]
-    " TLogVAR len(text[-1])
+
+    silent! call s:log.info(l:__func__, "beg=", mbeg, " end=", mend, " mode=", opmode, " l0=", l0, " l1=", l1, " c0=", c0, " c1=", c1)
+    silent! call s:log.info(l:__func__, "len=", len(text[-1]), " ", text[-1])
+
     if opmode == 'block'
         let clen = c1 - c0
         call map(text, 'hw#misc#Strcharpart(v:val, c0, clen)')

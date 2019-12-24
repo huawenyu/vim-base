@@ -50,7 +50,6 @@ set bs=eol,start,indent     | " set backspace pass another line
 set showmatch
 set matchtime=2     | " set match's seconds
 
-set tabpagemax=15
 set showmode
 set linespace=0
 set winminheight=0
@@ -147,7 +146,12 @@ set nomodeline
 set nowrapscan
 set showbreak=↪ |"⇇
 set noshowmatch
-set nonumber
+
+if exists("g:vim_confi_option") && g:vim_confi_option.editor_number
+  set number
+else
+  set nonumber
+endif
 
 " Stay in same column while navigating up and down
 "set virtualedit=all    | " shouldn't set, for it disable the left move when in start-of-line
