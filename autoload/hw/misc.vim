@@ -48,5 +48,18 @@ function! hw#misc#GetSelection(mode, ...) range
         endif
     endif
     return text
-endf
+endfunction
 
+
+function! hw#misc#GetWord()
+    let sel_str = hw#misc#GetSelection('')
+    if empty(sel_str)
+        let sel_str = expand('<cword>')
+    else
+        let sel_str = sel_str[0]
+        if empty(sel_str)
+            let sel_str = expand('<cword>')
+        endif
+    endif
+    return sel_str
+endfunction
