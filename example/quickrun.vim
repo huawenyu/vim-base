@@ -1,5 +1,4 @@
-echomsg 'wilson1'
-echomsg 'wilson2'
-echomsg 'wilson3'
-echomsg 'wilson4'
+# Test1
+
+	echo hw#list#Inject([1,2,3,4], 0, {a,b -> a + b})
 
