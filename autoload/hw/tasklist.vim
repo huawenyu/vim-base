@@ -13,25 +13,22 @@ if !exists("s:init")
 endif
 
 
-" EXAMPLES: >
-"   echo hw#list#Inject([1,2,3], 0, function('Add')
-"   => 6
 function! hw#tasklist#add(Function) abort
-    call append(s:_tasks, Function)
+    call add(s:_tasks, a:Function)
 
-    if s:_timer != v:null
-        let s:_timer = timer_start(0, function('s:_publish', [a:promise]))
+    if s:_timer == v:null
+        let s:_timer = timer_start(30, function('s:_run'))
     elseif empty(timer_info(s:_timer))
-        let s:_timer = timer_start(0, function('s:_publish', [a:promise]))
+        let s:_timer = timer_start(30, function('s:_run'))
     endif
 endf
 
 
-" EXAMPLES: >
-"   hw#list#Compact([0,1,2,3,[], {}, ""])
-"   => [1,2,3]
-function! hw#tasklist#TimerRun(list) abort
-    call timer_start(0, function('s:_publish', [a:promise]))
-endf
+function! s:_run(timer) abort
+    for aFunctor in s:_tasks
+        call aFunctor.do()
+    endfor
 
+    let s:_tasks = []
+endf
 
