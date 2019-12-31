@@ -12,7 +12,6 @@ if !exists("s:init")
     let s:_timer = v:null
 endif
 
-
 function! hw#tasklist#add(Function) abort
     call add(s:_tasks, a:Function)
 
