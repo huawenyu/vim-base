@@ -16,9 +16,9 @@ function! hw#tasklist#add(Function) abort
     call add(s:_tasks, a:Function)
 
     if s:_timer == v:null
-        let s:_timer = timer_start(30, function('s:_run'))
+        let s:_timer = timer_start(50, function('s:_run'))
     elseif empty(timer_info(s:_timer))
-        let s:_timer = timer_start(30, function('s:_run'))
+        let s:_timer = timer_start(50, function('s:_run'))
     endif
 endf
 
