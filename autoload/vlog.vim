@@ -31,80 +31,72 @@
 "
 " }}}
 
-if exists('g:loaded_vlog') || &cp
-  finish
-endif
-let g:loaded_vlog = 1
+let s:vlog_enable = 0
 
 " List of log messages.
 let s:vlog_messages = []
 
 " Bind log level names to ints.
 let s:vlog_levels = {
-  \ 'ERROR': 4,
-  \ 'WARN':  3,
-  \ 'INFO':  2,
-  \ 'DEBUG': 1
-  \ }
+            \ 'ERROR': 4,
+            \ 'WARN':  3,
+            \ 'INFO':  2,
+            \ 'DEBUG': 1
+            \ }
 
 " Set the default log level.
 if ! empty($VIM_VLOG_LEVEL) && has_key(s:vlog_levels, $VIM_VLOG_LEVEL)
     let s:vlog_level = $VIM_VLOG_LEVEL
 else
-  let s:vlog_level = 'DEBUG'
+    let s:vlog_level = 'DEBUG'
 endif
 
 function! s:timestamp() " {{{
-  return strftime("%Y.%m.%d_%H:%M:%S")
+    return strftime("%Y.%m.%d_%H:%M:%S")
 endfunction " }}}
 
 function! s:vlog(msg, msg_lvl) " {{{
-  if a:msg_lvl >= s:vlog_levels[s:vlog_level]
-    call add(s:vlog_messages, s:timestamp() . ' ' . a:msg)
-  endif
+    if s:vlog_enable && a:msg_lvl >= s:vlog_levels[s:vlog_level]
+        call add(s:vlog_messages, s:timestamp() . ' ' . a:msg)
+    endif
 endfunction " }}}
 
 function s:vlog_echo(msg) " {{{
-  " execute! printf '\x1b[31m;%s;[x1b\0m' 
-  " echo printf("\x1b[31m%s[\x1b[0m", a:msg)
-  echo a:msg
+    " execute! printf '\x1b[31m;%s;[x1b\0m' 
+    " echo printf("\x1b[31m%s[\x1b[0m", a:msg)
+    echomsg a:msg
 endfunction " }}}
 
 function! vlog#error(msg) " {{{
- call s:vlog(a:msg, s:vlog_levels.ERROR)
+    call s:vlog(a:msg, s:vlog_levels.ERROR)
 endfunction " }}}
 
 function! vlog#warn(msg) " {{{
- call s:vlog(a:msg, s:vlog_levels.WARN)
+    call s:vlog(a:msg, s:vlog_levels.WARN)
 endfunction " }}}
 
 function! vlog#info(msg) " {{{
-  call s:vlog(a:msg, s:vlog_levels.INFO)
+    call s:vlog(a:msg, s:vlog_levels.INFO)
 endfunction " }}}
 
 function! vlog#debug(msg) " {{{
-  call s:vlog(a:msg, s:vlog_levels.DEBUG)
+    call s:vlog(a:msg, s:vlog_levels.DEBUG)
 endfunction " }}}
 
 function! vlog#display() " {{{
-  for msg in s:vlog_messages
-    call s:vlog_echo(msg)
-  endfor
+    for msg in s:vlog_messages
+        call s:vlog_echo(msg)
+    endfor
 endfunction " }}}
 
 function! vlog#clear() " {{{
-  let s:vlog_messages = []
+    let s:vlog_messages = []
+    call vlog#info("===[Output of vlog]:===")
 endfunction " }}}
 
-" if has('autocmd')
-"  augroup
-"    autocmd!
-"      autocmd SourcePre call vlog#debug('sourced file ' . a:file)
-"  augroup END
-" endif
+function! vlog#Toggle() " {{{
+    let s:vlog_enable = !s:vlog_enable
+endfunction " }}}
 
-" call vlog#debug('sourced '. expand('%:p')
-call vlog#debug('test')
+call vlog#info("===[Output of vlog]:===")
 
-
-command! VlogDisplay :call vlog#display()
