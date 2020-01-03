@@ -15,5 +15,5 @@ let g:loaded_vlog = 1
 
 command! -bar VlogDisplay :call vlog#display()
 command! -bar VlogClear :call vlog#clear()
-command! -bar VlogToggle :call vlog#Toggle()
+command! -bar VlogToggle :call vlog#toggle()
 

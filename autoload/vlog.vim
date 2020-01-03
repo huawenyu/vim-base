@@ -94,8 +94,12 @@ function! vlog#clear() " {{{
     call vlog#info("===[Output of vlog]:===")
 endfunction " }}}
 
-function! vlog#Toggle() " {{{
-    let s:vlog_enable = !s:vlog_enable
+function! vlog#toggle(...) " {{{
+    if a:0 > 0
+        let s:vlog_enable = a:1
+    else
+        let s:vlog_enable = !s:vlog_enable
+    endif
 endfunction " }}}
 
 call vlog#info("===[Output of vlog]:===")
