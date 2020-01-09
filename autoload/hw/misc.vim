@@ -51,15 +51,21 @@ function! hw#misc#GetSelection(mode, ...) range
 endfunction
 
 
-function! hw#misc#GetWord()
-    let sel_str = hw#misc#GetSelection('')
-    if empty(sel_str)
+" @param mode: 'n' normal, 'v' selection
+function! hw#misc#GetWord(mode)
+    if a:mode is# 'n'
         let sel_str = expand('<cword>')
-    else
-        let sel_str = sel_str[0]
+    elseif a:mode is# 'v'
+        let sel_str = hw#misc#GetSelection('')
         if empty(sel_str)
             let sel_str = expand('<cword>')
+        else
+            let sel_str = sel_str[0]
+            if empty(sel_str)
+                let sel_str = expand('<cword>')
+            endif
         endif
     endif
+
     return sel_str
 endfunction
