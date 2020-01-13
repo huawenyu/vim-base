@@ -41,7 +41,8 @@ function! hw#misc#GetSelection(mode, ...) range
         call map(text, 'hw#misc#Strcharpart(v:val, c0, clen)')
     elseif opmode == 'selection'
         if c1 > 1
-            let text[-1] = hw#misc#Strcharpart(text[-1], 0, c1 - (a:mode == 'o' || c1 > len(text[-1]) ? 0 : 1))
+            "let text[-1] = hw#misc#Strcharpart(text[-1], 0, c1 - (a:mode == 'o' || c1 > len(text[-1]) ? 0 : 1))
+            let text[-1] = hw#misc#Strcharpart(text[-1], 0, c1)
         endif
         if c0 > 1
             let text[0] = hw#misc#Strcharpart(text[0], c0 - 1)
