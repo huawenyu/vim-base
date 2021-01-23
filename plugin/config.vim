@@ -68,7 +68,7 @@ set synmaxcol=200
 
 "set t_Co=256
 set background=dark
-colorscheme holokai     | "Come from Plug 'vim-scripts/holokai'
+silent! colorscheme holokai     | "Come from Plug 'vim-scripts/holokai'
 
 "colorscheme badwolf
 "colorscheme distinguished
