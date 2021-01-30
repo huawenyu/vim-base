@@ -108,8 +108,12 @@ set smartcase
 set hlsearch
 set incsearch
 
-set history=1000
-set undolevels=1000
+if &history < 1000
+    set history=1000
+endif
+if &undolevels < 1000
+    set undolevels=1000
+endif
 
 if has('multi_byte')
     set encoding=utf-8      " set inner code
