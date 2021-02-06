@@ -66,9 +66,30 @@ set synmaxcol=200
 syntax on
 set synmaxcol=200
 
-"set t_Co=256
-set background=dark
-silent! colorscheme holokai     | "Come from Plug 'vim-scripts/holokai'
+if HasPlug('holokai')
+    "set t_Co=256
+    set background=dark
+    silent! colorscheme holokai     | "Come from Plug 'vim-scripts/holokai'
+endif
+
+if HasPlug('seoul256.vim')
+    "set t_Co=256
+    " seoul256 (dark):
+    "   Range:   233 (darkest) ~ 239 (lightest)
+    "   Default: 237
+    let g:seoul256_background = 236
+    set background=dark
+    silent! colorscheme seoul256
+
+    let g:seoul256_srgb = 1    | " urxvt
+
+    "colo seoul256-light
+    "set background=light
+
+    "When loaded, soul256.vim will set up two global variables so that you can use them to customize other plugins:
+    " g:seoul256_current_fg - Current foreground color in ANSI code
+    " g:seoul256_current_bg - Current background color in ANSI code
+endif
 
 "colorscheme badwolf
 "colorscheme distinguished
