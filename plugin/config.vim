@@ -23,7 +23,7 @@ set formatoptions+=m
 set formatoptions+=B
 set ffs=unix,dos,mac
 
-if exists("g:vim_confi_option") && g:vim_confi_option.folding
+if exists("g:vim_confi_option") && g:vim_confi_option.view_folding
     if has('folding')
         set foldenable
         set fdm=indent
@@ -154,7 +154,12 @@ set splitbelow
 set splitright
 set list
 
-"set autochdir       " if work with shell or cscope, please not change work-dir
+if exists("g:vim_confi_option") && g:vim_confi_option.auto_chdir
+    set autochdir       " if work with shell or cscope, please not change work-dir
+else
+    set noautochdir
+end
+
 set sessionoptions-=options    " do not store global and local values in a session
 set ssop-=folds      " do not store folds
 set ssop+=curdir     " do not store absolute path
@@ -172,10 +177,10 @@ set nowrapscan
 set showbreak=↪ |"⇇
 set noshowmatch
 
-if exists("g:vim_confi_option") && g:vim_confi_option.editor_number
-  set number
+if exists("g:vim_confi_option") && g:vim_confi_option.show_number
+    set number
 else
-  set nonumber
+    set nonumber
 endif
 
 " Stay in same column while navigating up and down
