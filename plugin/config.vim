@@ -185,6 +185,7 @@ endif
 
 " Stay in same column while navigating up and down
 "set virtualedit=all    | " shouldn't set, for it disable the left move when in start-of-line
+set virtualedit=block
 set nostartofline
 
 " Check which script change the config value
