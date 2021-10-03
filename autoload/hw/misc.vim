@@ -70,3 +70,91 @@ function! hw#misc#GetWord(mode)
 
     return sel_str
 endfunction
+
+
+" Example:
+" let your_saved_mappings = Save_mappings(['<C-a>', '<C-b>', '<C-c>'], 'n', 1)
+" ...
+" call Restore_mappings(your_saved_mappings)
+"
+fu! hw#misc#SaveMaps(keys, mode, global) abort
+    let mappings = {}
+
+    if a:global
+        for l:key in a:keys
+            let buf_local_map = maparg(l:key, a:mode, 0, 1)
+
+            sil! exe a:mode.'unmap <buffer> '.l:key
+
+            let map_info        = maparg(l:key, a:mode, 0, 1)
+            let mappings[l:key] = !empty(map_info)
+                                \     ? map_info
+                                \     : {
+                                        \ 'unmapped' : 1,
+                                        \ 'buffer'   : 0,
+                                        \ 'lhs'      : l:key,
+                                        \ 'mode'     : a:mode,
+                                        \ }
+
+            call hw#misc#RestoreMaps({l:key : buf_local_map})
+        endfor
+
+    else
+        for l:key in a:keys
+            let map_info        = maparg(l:key, a:mode, 0, 1)
+            let mappings[l:key] = !empty(map_info)
+                                \     ? map_info
+                                \     : {
+                                        \ 'unmapped' : 1,
+                                        \ 'buffer'   : 1,
+                                        \ 'lhs'      : l:key,
+                                        \ 'mode'     : a:mode,
+                                        \ }
+        endfor
+    endif
+
+    return mappings
+endfu
+
+
+fu! hw#misc#RestoreMaps(mappings) abort
+
+    for mapping in values(a:mappings)
+        if !has_key(mapping, 'unmapped') && !empty(mapping)
+            exe     mapping.mode
+               \ . (mapping.noremap ? 'noremap   ' : 'map ')
+               \ . (mapping.buffer  ? ' <buffer> ' : '')
+               \ . (mapping.expr    ? ' <expr>   ' : '')
+               \ . (mapping.nowait  ? ' <nowait> ' : '')
+               \ . (mapping.silent  ? ' <silent> ' : '')
+               \ .  mapping.lhs
+               \ . ' '
+               \ . substitute(mapping.rhs, '<SID>', '<SNR>'.mapping.sid.'_', 'g')
+
+        elseif has_key(mapping, 'unmapped')
+            sil! exe mapping.mode.'unmap '
+                                \ .(mapping.buffer ? ' <buffer> ' : '')
+                                \ . mapping.lhs
+        endif
+    endfor
+endfu
+
+
+if HasPlug('vim-floaterm') | " {{{1
+fu! hw#misc#Execute(sel_mode, cmd) abort
+    if len(a:cmd) == 0 | return | endif
+
+    silent execute ':FloatermKill! hwcmd'
+
+    let sel_str = hw#misc#GetWord(a:sel_mode)
+    if len(sel_str) > 0
+        let l:args = input(a:cmd. "  ", sel_str)
+        let l:command=':FloatermNew --name=hwcmd --position=bottom --autoclose=0 --height=0.4 --width=0.7 --title='. a:cmd
+        let l:command= l:command. printf(" %s %s", a:cmd, l:args)
+        silent execute l:command
+        stopinsert
+    endif
+endfu
+endif
+
+
