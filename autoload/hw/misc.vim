@@ -52,10 +52,89 @@ function! hw#misc#GetSelection(mode, ...) range
 endfunction
 
 
+fun! s:getstdword(mode, ...) range
+    return expand('<cword>')
+endf
+
+
+" Example:
+" echomsg "hello"
+" let text = "Plug 'habamax/vim-evalvim', Cond(Mode(['editor',]))"
+" echo match(text, "[\'\"/.,;: \t]", (getpos('.'))[2])
+" echo match(text, "'", (getpos('.'))[2])
+" echo getpos('.')
+" echo match("testing", "..", 0, 2)
+" @param strp  the split chars list, '[.,;: \t]'
+" @param mode
+fun! s:getvimword(text, strpS, strpE) range
+    if len(a:strpS) == 0 | return ''| endif
+    if len(a:strpE) == 0 | return ''| endif
+    let l:__func__ = "hw#misc s:getvimword() "
+
+    silent! call s:log.info(l:__func__, 'enter')
+    let strpS = a:strpS
+    let strpE = a:strpE
+    let text = a:text
+    let cpos = (getpos('.'))[2]
+
+    " let text = ":display: tlib#selection#GetSelection(mode, ?mbeg=\"'<\", ?mend=\"'>\", ?opmode='selection')"
+    " echo match(text, "[\?=\'\"/.,;: \t]", 10)
+
+    " @evalStart
+    " let text = "Plug 'habamax/vim-evalvim', Cond(Mode(['editor',]))"
+    let end = match(text, strpE, cpos)
+    " echo end
+    " echo 'plug='. text[14:end-1]
+    " let strpE = "[\'\"/.,;: \t]"
+    " let cpos = 20
+    silent! call s:log.info(l:__func__, 'cpos='. cpos, ' end='. end)
+    if end < 1
+        return '' |
+    endif
+
+    let start = 0
+    let start2 = 0
+    let c = 1
+    while c < 100
+        let c += 1
+        let start2 = match(text, strpS, start)
+        if start2 >= end | break | endif
+        " echo "wilson start2=". start2
+        let start = start2 + 1
+    endwhile
+
+    if c == 100
+        "echo "find fail: reach end"
+        return '' |
+    endif
+    " echo 'plug-'. start. ':'. end. '='. text[start:(end-1)]
+    " @evalEnd
+    silent! call s:log.info(l:__func__, 'plug-'. start. ':'. end. '='. text[start:(end-1)])
+
+    return text[start:(end-1)]
+endf
+
+
+" :display: tlib#selection#GetSelection(mode, ?mbeg="'<", ?mend="'>", ?opmode='selection')
+" mode can be one of: selection, lines, block
+fun! hw#misc#GetCursorWord() range
+    let l:__func__ = "hw#misc#GetCursorWord() "
+
+    if &ft=='vim'
+        return s:getvimword(getline('.'), "[\?=\'\"/,;: \t]", "[\?=\'\",;: \t]")
+    else
+        return expand('<cword>')
+    endif
+endf
+
+
+" Example:
+" nnoremap <leader>rr :<c-u>echo hw#misc#GetWord('n')<cr>
+" vnoremap <leader>rr :<c-u>echo hw#misc#GetWord('v')<cr>
 " @param mode: 'n' normal, 'v' selection
 function! hw#misc#GetWord(mode)
     if a:mode is# 'n'
-        let sel_str = expand('<cword>')
+        let sel_str = hw#misc#GetCursorWord()
     elseif a:mode is# 'v'
         let sel_str = hw#misc#GetSelection('')
         if empty(sel_str)

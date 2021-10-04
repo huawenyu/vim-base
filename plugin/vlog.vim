@@ -1,7 +1,7 @@
-if exists('g:loaded_vlog') || &cp
+if exists('g:loaded_basic_vlog') || &cp
     finish
 endif
-let g:loaded_vlog = 1
+let g:loaded_basic_vlog = 1
 
 " if has('autocmd')
 "  augroup

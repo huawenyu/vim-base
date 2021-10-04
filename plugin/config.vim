@@ -1,12 +1,7 @@
-" Version:      1.2
-" https://github.com/spf13/spf13-vim
-" https://github.com/skywind3000/vim-init
-
 if exists('g:loaded_local_basic') || &compatible
   finish
-else
-  let g:loaded_local_basic = 'yes'
 endif
+let g:loaded_local_basic = 1
 
 "if has("nvim")
 "    let base16colorspace=256
@@ -165,6 +160,9 @@ set ssop-=folds      " do not store folds
 set ssop+=curdir     " do not store absolute path
 set ssop-=sesdir     " work under current dir as relative path
 
+" Check: verbose set modeline?
+"set nomodeline     " Maybe it's better to enable the modeline
+
 set visualbell
 set noerrorbells
 set nowrap
@@ -172,7 +170,6 @@ set nobackup
 set noswapfile
 set nowritebackup
 set noshowmode
-set nomodeline
 set nowrapscan
 set showbreak=↪ |"⇇
 set noshowmatch
@@ -243,8 +240,7 @@ function! s:MyStartPage()
                 " Some margin for readability
                 :silent %>>
                 " Go to line 1
-                :1
-                :set ft=python
+                " :1
             endfun
             let g:Startscreen_function = function('MyStartPage')
         endif
