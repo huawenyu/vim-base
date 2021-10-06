@@ -95,14 +95,29 @@ if g:vim_confi_option.enable_map_useful
     "nnoremap <Tab> za
     nnoremap <Tab>   zR
     nnoremap <S-Tab> zM
+
     "? if c, map to file header/source
+    au FileType c,cpp nnoremap <silent> <Tab>  :call JumpToCorrespondingFile()<cr>
+    " Jump to a file whose extension corresponds to the extension of the current
+    " file. The `tags' file, created with:
+    " $ ctags --extra=+f -R .
+    " has to be present in the current directory.
+    function! JumpToCorrespondingFile()
+        let l:extensions = { 'c': 'h', 'h': 'c', 'cpp': 'hpp', 'hpp': 'cpp' }
+        let l:fe = expand('%:e')
+        if has_key(l:extensions, l:fe)
+            execute ':tag ' . expand('%:t:r') . '.' . l:extensions[l:fe]
+        endif
+    endfunct
+
 
     " similar to gv, reselects the last changed block
     " highlight last inserted text
     nnoremap gV `[v`]
 
+    " Anoy try to delete some character but format it not in insert mode
     " press <backspace> to switch to the "alternate file"
-    nnoremap <BS> <C-^>
+    "nnoremap <BS> <C-^>
 
     " Reformat whole file
     "nnoremap g= gg=G``
