@@ -52,8 +52,38 @@ function! hw#misc#GetSelection(mode, ...) range
 endfunction
 
 
-fun! s:getstdword(mode, ...) range
+fun! s:getwordStd(mode, ...) range
     return expand('<cword>')
+endf
+
+
+
+" Example:
+" |/\zs|	\zs	\zs	anything, sets start of match
+" |/\ze|	\ze	\ze	anything, sets end of match
+"
+" echo matchstr("Plug 'tpope/vim-sensible'", 'Plug\s\+''\zs[^'']\+\ze''\{-\}')
+" echo matchstr("note:z.lua", 'note[.: @]\zs\S\+\ze[\s|$]\{-\}')
+" echo matchstr("'@note:z.lua'", '\([''"]\)\zs.\{-}\ze\1')
+" echo matchstr("@note:nvim", 'note[.: @]\zs.\{-}\ze[\}\]\) ,;''"]\{-\}$')
+"
+" echo matchstr("@note readme", '@note\s\+\zs\w\+\ze[\s|$]\{-\}')
+" echo matchstr("@note z.lua ", '@note\s\+\zs\S\+\ze[\s|$]\{-\}')
+" echo matchstr("@note:z.lua ", '@note\s\+\zs\w\+\ze[\s|$]\{-\}')
+fun! s:getwordQuota(from) range
+    let curline = getline('.')
+    let notename = matchstr(curline, a:from. '\s\+''\zs[^'']\+\ze''\{-\}')
+    if empty(notename)
+        let notename = matchstr(curline, 'note[.: @]\zs.\{-}\ze[\}\]\) ,;''"]\{-\}$')
+        if empty(notename) | return "" | endif
+    endif
+
+    let items = split(notename, '/')
+    if len(items) < 2
+        return notename
+    else
+        return items[1]
+    endif
 endf
 
 
@@ -66,10 +96,10 @@ endf
 " echo match("testing", "..", 0, 2)
 " @param strp  the split chars list, '[.,;: \t]'
 " @param mode
-fun! s:getvimword(text, strpS, strpE) range
+fun! s:getwordVimplug(text, strpS, strpE) range
     if len(a:strpS) == 0 | return ''| endif
     if len(a:strpE) == 0 | return ''| endif
-    let l:__func__ = "hw#misc s:getvimword() "
+    let l:__func__ = "hw#misc s:getwordVimplug() "
 
     silent! call s:log.info(l:__func__, 'enter')
     let strpS = a:strpS
@@ -121,7 +151,7 @@ fun! hw#misc#GetCursorWord() range
     let l:__func__ = "hw#misc#GetCursorWord() "
 
     if &ft=='vim'
-        return s:getvimword(getline('.'), "[\?=\'\"/,;: \t]", "[\?=\'\",;: \t]")
+        return s:getwordVimplug(getline('.'), "[\?=\'\"/,;: \t]", "[\?=\'\",;: \t]")
     else
         return expand('<cword>')
     endif
@@ -220,18 +250,25 @@ endfu
 
 
 if HasPlug('vim-floaterm') | " {{{1
-fu! hw#misc#Execute(sel_mode, cmd) abort
+fu! hw#misc#Execute(sel_mode, cmd, defaultCmd) abort
     if len(a:cmd) == 0 | return | endif
 
     silent execute ':FloatermKill! hwcmd'
 
     let sel_str = hw#misc#GetWord(a:sel_mode)
     if len(sel_str) > 0
-        let l:args = input(a:cmd. "  ", sel_str)
-        let l:command=':FloatermNew --name=hwcmd --position=bottom --autoclose=0 --height=0.4 --width=0.7 --title='. a:cmd
-        let l:command= l:command. printf(" %s %s", a:cmd, l:args)
+        "let l:args = input(a:cmd. " ", sel_str)
+        let l:title = a:cmd..":"..sel_str
+        let l:command=':FloatermNew --name=hwcmd --position=bottom --autoclose=0 --height=0.4 --width=0.7 --title='. l:title
+        let l:command= l:command. printf(" %s %s", a:cmd, sel_str)
         silent execute l:command
         stopinsert
+    elseif len(a:defaultCmd) > 0
+        execute a:defaultCmd
+        return
+    else
+        echomsg "hw#misc#Execute(): Empty command!"
+        return
     endif
 endfu
 endif

@@ -1,7 +1,7 @@
-if exists('g:loaded_local_basic') || &compatible
+if exists('g:loaded_hw_basic_conf') || &compatible
   finish
 endif
-let g:loaded_local_basic = 1
+let g:loaded_hw_basic_conf = 1
 
 "if has("nvim")
 "    let base16colorspace=256
@@ -191,7 +191,7 @@ set tabstop=4
 set shiftwidth=4
 set softtabstop=4
 set textwidth=180
-set noexpandtab
+"set noexpandtab    | " editorconfig-vim in charge of it
 
 "set iskeyword-=.                    " '.' is an end of word designator
 "set iskeyword-=#                    " '#' is an end of word designator
