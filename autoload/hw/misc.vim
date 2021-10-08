@@ -14,6 +14,10 @@ else
     endf
 endif
 
+fun! s:isOnWord()
+    return matchstr(getline('.'), '\%'.col('.').'c.') =~# '\k'
+endf
+
 " :display: tlib#selection#GetSelection(mode, ?mbeg="'<", ?mend="'>", ?opmode='selection')
 " mode can be one of: selection, lines, block
 function! hw#misc#GetSelection(mode, ...) range
@@ -148,6 +152,7 @@ endf
 " :display: tlib#selection#GetSelection(mode, ?mbeg="'<", ?mend="'>", ?opmode='selection')
 " mode can be one of: selection, lines, block
 fun! hw#misc#GetCursorWord() range
+    if s:isOnWord() | return '' | endif
     let l:__func__ = "hw#misc#GetCursorWord() "
 
     if &ft=='vim'
@@ -163,21 +168,17 @@ endf
 " vnoremap <leader>rr :<c-u>echo hw#misc#GetWord('v')<cr>
 " @param mode: 'n' normal, 'v' selection
 function! hw#misc#GetWord(mode)
-    if a:mode is# 'n'
-        let sel_str = hw#misc#GetCursorWord()
-    elseif a:mode is# 'v'
+    if a:mode is# 'v'
         let sel_str = hw#misc#GetSelection('')
-        if empty(sel_str)
-            let sel_str = expand('<cword>')
-        else
+        if !empty(sel_str)
             let sel_str = sel_str[0]
-            if empty(sel_str)
-                let sel_str = expand('<cword>')
+            if !empty(sel_str)
+                return sel_str
             endif
         endif
     endif
 
-    return sel_str
+    return hw#misc#GetCursorWord()
 endfunction
 
 
