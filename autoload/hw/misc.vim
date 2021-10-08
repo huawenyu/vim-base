@@ -152,9 +152,10 @@ endf
 " :display: tlib#selection#GetSelection(mode, ?mbeg="'<", ?mend="'>", ?opmode='selection')
 " mode can be one of: selection, lines, block
 fun! hw#misc#GetCursorWord() range
-    if s:isOnWord() | return '' | endif
+    if ! s:isOnWord() | return '' | endif
     let l:__func__ = "hw#misc#GetCursorWord() "
 
+    silent! call s:log.info(l:__func__, "wilson")
     if &ft=='vim'
         return s:getwordVimplug(getline('.'), "[\?=\'\"/,;: \t]", "[\?=\'\",;: \t]")
     else
