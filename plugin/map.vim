@@ -132,10 +132,8 @@ if g:vim_confi_option.enable_map_useful
 
     augroup HwbasicFtMap
         autocmd!
-        autocmd FileType help     nnoremap <buffer> <C-q> :q<cr>
-        autocmd FileType help     nnoremap <buffer> q     :q<cr>
-        autocmd FileType floaterm nnoremap <buffer> <C-q> :q<cr>
-        autocmd FileType floaterm nnoremap <buffer> q     :q<cr>
+        autocmd FileType help,man,floaterm     nnoremap <buffer> <C-[> :q<cr>
+        autocmd FileType help,man,floaterm     nnoremap <buffer> q     :q<cr>
     augroup END
 
 
