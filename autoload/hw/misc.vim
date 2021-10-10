@@ -116,12 +116,15 @@ fun! s:getwordVimplug(text, strpS, strpE) range
 
     " @evalStart
     " let text = "Plug 'habamax/vim-evalvim', Cond(Mode(['editor',]))"
+    " let strpS = a:strpS
+    " let strpE = "[\'\"/.,;: \t$]"
+    " let text = "```graph-easy"
     let end = match(text, strpE, cpos)
     " echo end
     " echo 'plug='. text[14:end-1]
+    " let strpS = a:strpS
     " let strpE = "[\'\"/.,;: \t]"
     " let cpos = 20
-    silent! call s:log.info(l:__func__, 'cpos='. cpos, ' end='. end)
     if end < 1
         return '' |
     endif
@@ -133,7 +136,7 @@ fun! s:getwordVimplug(text, strpS, strpE) range
         let c += 1
         let start2 = match(text, strpS, start)
         if start2 >= end | break | endif
-        " echo "wilson start2=". start2
+        " echo "debug start2=". start2
         let start = start2 + 1
     endwhile
 
@@ -151,13 +154,15 @@ endf
 
 " :display: tlib#selection#GetSelection(mode, ?mbeg="'<", ?mend="'>", ?opmode='selection')
 " mode can be one of: selection, lines, block
-fun! hw#misc#GetCursorWord() range
+fun! hw#misc#GetCursorWord()
     if ! s:isOnWord() | return '' | endif
     let l:__func__ = "hw#misc#GetCursorWord() "
 
-    silent! call s:log.info(l:__func__, "wilson")
+    silent! call s:log.info(l:__func__, "enter ft=", &ft)
     if &ft=='vim'
-        return s:getwordVimplug(getline('.'), "[\?=\'\"/,;: \t]", "[\?=\'\",;: \t]")
+        return s:getwordVimplug(getline('.')..' ', "[\?=\'\"/,;: \t]", "[\?=\'\",;: \t]")
+    elseif &ft=='markdown' || &ft=='presenting_markdown'
+        return s:getwordVimplug(getline('.')..' ', "[\?=`\'\"/,;: \t]", "[\?=`\'\",;: \t]")
     else
         return expand('<cword>')
     endif
@@ -176,6 +181,14 @@ function! hw#misc#GetWord(mode)
             if !empty(sel_str)
                 return sel_str
             endif
+        endif
+    elseif a:mode is# 'http'
+        let wordStr = s:getwordVimplug(getline('.')..' ', "[\(\'\" \t]", "[\)\'\" \t]")
+        silent! call s:log.info(l:__func__, "debug:", wordStr)
+        if wordStr =~ "^http"
+            return wordStr
+        else
+            return "http://www.google.com"
         endif
     endif
 
