@@ -140,8 +140,8 @@ if g:vim_confi_option.enable_map_useful
     " Finger candy: same-bind a-, c-, leader-
     " Alt+HJKL   move around tmux pane
     " Ctrl+HJKL  move around vim-window/tmux-pane
-    nnoremap <silent> <a-o>   :colder<cr>
-    nnoremap <silent> <a-i>   :cnewer<cr>
+    " nnoremap <silent> <a-o>   :colder<cr>
+    " nnoremap <silent> <a-i>   :cnewer<cr>
 
     nnoremap <silent> <leader>o <C-o>
     nnoremap <silent> <leader>i <C-i>
