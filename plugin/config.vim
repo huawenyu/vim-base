@@ -141,6 +141,7 @@ endif
 "set shortmess=atI
 "set shortmess-=oO
 "set shortmess=aoOtTI
+set shortmess-=S
 set shortmess+=filmnrxoOtT  " Abbrev. of messages (avoids 'hit enter')
 "set paste           " conflict with auto-pairs, delimitmate, auto-close plugin
 "set showcmd

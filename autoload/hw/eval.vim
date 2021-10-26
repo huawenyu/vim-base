@@ -7,7 +7,7 @@ endif
 
 fun! s:trim(val)
     if match(a:val, "|$") < 0
-        return trim(a:val, '"\t ', 1)
+        return trim(a:val, '\t ', 1)
     else
         return ''
     endif
@@ -30,7 +30,9 @@ fun! hw#eval#repl(mode)
     silent! call s:log.info(l:__func__, '>>>>>>>>>>>>>>>>>>>>>>')
     let mode = 'unknown'
     "echo search('\<if\|\(else\)\|\(endif\)', 'ncpe')
-    if a:mode is# 'n'
+    if type(a:mode) == type([])
+        let lines = a:mode
+    elseif a:mode is# 'n'
         let lines = []
 
         let c_linenum = line('.')
