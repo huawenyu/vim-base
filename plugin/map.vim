@@ -93,13 +93,17 @@ if g:vim_confi_option.enable_map_basic
 endif
 
 if g:vim_confi_option.enable_map_useful
-" Tab: Toggle folds
-    "nnoremap <Tab> za
-    nnoremap <Tab>   zR
-    nnoremap <S-Tab> zM
 
+    " https://stackoverflow.com/questions/18175647/jump-with-ctrl-i-doesnt-work-in-my-macvim-but-ctrl-o-works
+    " Please don't map tab, since it's same as c-i, and will overwrite our c-i.
+    ""Tab: Toggle folds
+    "    "nnoremap <Tab> za
+    "    nnoremap <Tab>   zR
+    "    nnoremap <S-Tab> zM
     "? if c, map to file header/source
-    au FileType c,cpp nnoremap <silent> <Tab>  :call JumpToCorrespondingFile()<cr>
+    "au FileType c,cpp nnoremap <silent> <Tab>  :call JumpToCorrespondingFile()<cr>
+    au FileType c,cpp nnoremap <silent> <leader>fa  :call JumpToCorrespondingFile()<cr>
+
     " Jump to a file whose extension corresponds to the extension of the current
     " file. The `tags' file, created with:
     " $ ctags --extra=+f -R .
