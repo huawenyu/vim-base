@@ -79,6 +79,7 @@ if g:vim_confi_option.enable_map_basic
     "inoremap jj <c-o>:w<cr><ESC>
     " @ver6: save & exit insert-mode
     nnoremap <leader>w :w<cr><ESC>
+    nnoremap <leader>ww :w<cr><ESC>
 
     " Save in insert mode, comment out it for anoy when you input the letter 'k'.
     "inoremap kk <c-o>:w<cr>

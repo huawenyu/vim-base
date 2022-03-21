@@ -22,6 +22,7 @@ autocmd BufWinEnter,WinEnter * if &buftype == 'terminal' | silent! normal A | en
 
 command! -nargs=* Wrap set wrap linebreak nolist
 "command! -nargs=* Wrap PencilSoft
+command! -nargs=* Copy set signcolumn=no nolist
 
 ""command! -bang -nargs=* -complete=file Make AsyncRun -program=make @ <args>
 "command! -nargs=+ -bang -complete=shellcmd
