@@ -48,6 +48,8 @@ set matchtime=2     | " set match's seconds
 set showmode
 set linespace=0
 set winminheight=0
+" Disable preview window in neosnippet candidates.
+set completeopt-=preview
 
 " Vim status bar prediction/completion
 "set wildmode=longest,list,full
