@@ -20,9 +20,9 @@ autocmd BufEnter * if &buftype == 'terminal' | silent! normal A | endif
 autocmd BufWinEnter,WinEnter * if &buftype == 'terminal' | silent! normal A | endif
 
 
-command! -nargs=* Wrap set wrap linebreak nolist
+command! -nargs=* MyWrapMode set wrap linebreak nolist
 "command! -nargs=* Wrap PencilSoft
-command! -nargs=* Copy set signcolumn=no nolist
+command! -nargs=* MyCopyMode set signcolumn=no nolist
 
 ""command! -bang -nargs=* -complete=file Make AsyncRun -program=make @ <args>
 "command! -nargs=+ -bang -complete=shellcmd
