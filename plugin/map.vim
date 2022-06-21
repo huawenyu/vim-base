@@ -141,12 +141,16 @@ if g:vim_confi_option.enable_map_useful
         autocmd!
         autocmd FileType help,man,floaterm     nnoremap <buffer> <C-[> :q<cr>
         autocmd FileType help,man,floaterm     nnoremap <buffer> q     :q<cr>
+        autocmd FileType qf                    nnoremap <buffer> <c-o> :colder<cr>
+        autocmd FileType qf                    nnoremap <buffer> <c-i> :cnewer<cr>
     augroup END
 
 
     " Finger candy: same-bind a-, c-, leader-
     " Alt+HJKL   move around tmux pane
     " Ctrl+HJKL  move around vim-window/tmux-pane
+    "
+    "" Move to HwbasicFtMap
     " nnoremap <silent> <a-o>   :colder<cr>
     " nnoremap <silent> <a-i>   :cnewer<cr>
 

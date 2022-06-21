@@ -150,7 +150,6 @@ set shortmess+=filmnrxoOtT  " Abbrev. of messages (avoids 'hit enter')
 set cmdheight=2    " fix: Vim asks me 'Press Enter or type command to continue' at startup.
 set splitbelow
 set splitright
-set list
 
 if exists("g:vim_confi_option") && g:vim_confi_option.auto_chdir
     set autochdir       " if work with shell or cscope, please not change work-dir
@@ -168,7 +167,13 @@ set ssop-=sesdir     " work under current dir as relative path
 
 set visualbell
 set noerrorbells
-set nowrap
+
+if exists("g:vim_confi_option") && g:vim_confi_option.wrapline
+    set wrap linebreak nolist
+else
+    set list nowrap nolinebreak
+endif
+
 set nobackup
 set noswapfile
 set nowritebackup
