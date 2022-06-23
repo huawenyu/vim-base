@@ -230,7 +230,6 @@ if g:vim_confi_option.enable_map_useful
     Shortcut! <leader><a-i> Paste in insert mode
 
 
-
     nnoremap <leader>dt :%s/\s\+$//g
     nnoremap <leader>dd :g/<C-R><C-w>/ norm dd
     vnoremap <leader>dd :<c-u>g/<C-R>*/ norm dd

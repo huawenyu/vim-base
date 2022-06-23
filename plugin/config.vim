@@ -3,13 +3,22 @@ if exists('g:loaded_hw_basic_conf') || &compatible
 endif
 let g:loaded_hw_basic_conf = 1
 
-"if has("nvim")
-"    let base16colorspace=256
-"    let $NVIM_TUI_ENABLE_TRUE_COLOR=0
-"    set synmaxcol=2048
-"else
-"    set term=xterm-256color
-"endif
+if has("nvim")
+    "let base16colorspace=256
+    "let $NVIM_TUI_ENABLE_TRUE_COLOR=0
+    "set synmaxcol=2048
+
+    augroup terminal_setup | au!
+        " auto enter insert mode when enter by mouse
+        autocmd TermOpen * nnoremap <buffer><LeftRelease> <LeftRelease>i
+        " auto enter insert mode when enter by key
+        autocmd BufEnter term://* startinsert
+        autocmd TermOpen * tnoremap <Esc><Esc> <c-\><c-n>
+        autocmd FileType fzf tunmap <Esc><Esc>
+    augroup end
+else
+    "set term=xterm-256color
+endif
 
 set guifont=Liberation\ Mono\ 13
 scriptencoding utf-8
