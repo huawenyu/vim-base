@@ -65,7 +65,9 @@ command! -nargs=* C8  setlocal autoindent cindent noexpandtab tabstop=8 shiftwid
     let g:listchar_formats=[
        \"tab:»\\ ,trail:~,extends:<,nbsp:.",
        \"tab:..,space:.,trail:\\ ,extends:.,nbsp:.",
+       \"tab:..,trail:\\ ,extends:.,nbsp:.",
        \"tab:--,space:-,trail:\\ ,extends:-,nbsp:-",
+       \"tab:--,trail:\\ ,extends:-,nbsp:-",
        \"tab:»·,eol:↲,nbsp:␣,extends:…,space:␣,precedes:<,extends:>,conceal:┊,trail:░",
        \"tab:»·,eol:↲,nbsp:␣,extends:…,space:␣,precedes:☚,extends:☛,conceal:┊,trail:☠",
        \"tab:»…,space:.,nbsp:%,trail:␣"
