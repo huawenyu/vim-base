@@ -90,7 +90,7 @@ if g:vim_confi_option.enable_map_basic
     " Count the number of occurrences of the last search pattern
     nnoremap  ;#   :<c-u>%s///gn<cr>
     nnoremap  ;^   :<c-u>g//p<cr>
-    nnoremap  ;*   :cexpr []<cr> <bar>:<c-u>g//caddexpr shellescape(expand("%")) . "|" . line(".") . "|" . getline(".")<cr> <bar>:copen<cr>
+    nnoremap  ;*   :cexpr []<cr> <bar>:<c-u>g//caddexpr shellescape(expand("%")) . "\|" . line(".") . "\|" . getline(".")<cr> <bar>:copen<cr>
 
     " Lazy macro repeat
     nmap <leader>.  @@
