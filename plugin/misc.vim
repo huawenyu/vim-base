@@ -35,6 +35,7 @@ fun! HWCopy_(bang)
         endif
     else
         set signcolumn=no nolist
+        C4
         if exists(":LspStop")
             LspStop
         endif
