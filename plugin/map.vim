@@ -231,7 +231,7 @@ if g:vim_confi_option.enable_map_useful
 
     " Paste in insert mode
     inoremap <silent> <a-i> <c-r>"
-    Shortcut! <leader><a-i> Paste in insert mode
+    silent! Shortcut! <leader><a-i> Paste in insert mode
 
 
     nnoremap <leader>dt :%s/\s\+$//g
@@ -245,7 +245,7 @@ if g:vim_confi_option.enable_map_useful
     " count the number of occurrences of a word
     "nnoremap <leader>vc :%s/<C-R>=expand('<cword>')<cr>//gn<cr>
     nnoremap <leader>vn :%s///gn<cr>
-    Shortcut! <space>vn    Tool count
+    silent! Shortcut! <space>vn    Tool count
 
     " For global replace
     nnoremap <leader>vR gD:%s/<C-R>///g<left><left>
