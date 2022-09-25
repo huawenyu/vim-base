@@ -62,6 +62,7 @@ command! -nargs=* C8  setlocal autoindent cindent noexpandtab tabstop=8 shiftwid
 
 " Copy from https://github.com/teto/vim-listchars {{{1
     "set listchars=tab:»\ ,trail:~,extends:<,nbsp:.
+    " ▶
 
     let g:listchar_formats=[
        \"tab:»\\ ,trail:~,extends:<,nbsp:.",

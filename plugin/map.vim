@@ -25,15 +25,17 @@ if g:vim_confi_option.enable_map_basic
 
     "" Disable F1 built-in help key by: re-replace last search
     "map <F1> :<c-u>%s///gc<cr>
-    map <F1> :<c-u>%s//<C-R>"/gc<cr>
+    map <F1> :"Replace the search            "<c-U>%s//<C-R>"/gc<cr>
 
     " map <leader><Esc> :AnsiEsc<cr>
     nnoremap <C-c> <silent> <C-c>
     "nnoremap <buffer> <Enter> <C-W><Enter>     | " vimwiki use this to create a new link
 
+    " Remap to fzf sink to quickfix
     " Ctrl-q: if-window exit all, if-terminal exit terminal
-    nnoremap <C-q> :<c-u>qa!<cr>
-    nnoremap <leader>q :<c-u>qa<cr>
+    "nnoremap <C-q>         :"Exit all            "<c-U>qa!<cr>
+    nnoremap <leader>q      :"Exit all            "<c-U>qa<cr>
+    vnoremap <leader>q                            :<c-U>qa<cr>
 
     "" Esc too far, use Ctrl+Enter as alternative
     "inoremap <a-CR> <Esc>
@@ -78,8 +80,8 @@ if g:vim_confi_option.enable_map_basic
     " @ver5: save & exit insert-mode
     "inoremap jj <c-o>:w<cr><ESC>
     " @ver6: save & exit insert-mode
-    nnoremap <leader>w :w<cr><ESC>
-    nnoremap <leader>ww :w<cr><ESC>
+    nnoremap <leader>w  :"Save/write file        "<c-U>w<cr><ESC>
+    nnoremap <leader>ww :"Save/write file        "<c-U>w<cr><ESC>
 
     " Save in insert mode, comment out it for anoy when you input the letter 'k'.
     "inoremap kk <c-o>:w<cr>
@@ -88,9 +90,9 @@ if g:vim_confi_option.enable_map_basic
     " Temporarily turns off search highlighting
     nnoremap <silent> <Return> :nohls<Return><Return>
     " Count the number of occurrences of the last search pattern
-    nnoremap  ;#   :<c-u>%s///gn<cr>
-    nnoremap  ;^   :<c-u>g//p<cr>
-    nnoremap  ;*   :cexpr []<cr> <bar>:<c-u>g//caddexpr expand("%") ..":" ..line(".") ..":0:" . getline(".")<cr> <bar>:copen<cr>
+    nnoremap  ;#   :"Count search-pattern           "<c-U><c-U>%s///gn<cr>
+    nnoremap  ;^   :"(*)Popup search-pattern           "<c-U>g//p<cr>
+    nnoremap  ;*   :"(*)Quickfix-sink search-pattern   "<c-U>cexpr []<cr> <bar>:<c-u>g//caddexpr expand("%") ..":" ..line(".") ..":0:" . getline(".")<cr> <bar>:copen<cr>
 
     " Lazy macro repeat
     nmap <leader>.  @@
@@ -107,7 +109,7 @@ if g:vim_confi_option.enable_map_useful
     "    nnoremap <S-Tab> zM
     "? if c, map to file header/source
     "au FileType c,cpp nnoremap <silent> <Tab>  :call JumpToCorrespondingFile()<cr>
-    au FileType c,cpp nnoremap <silent> <leader>fa  :call JumpToCorrespondingFile()<cr>
+    au FileType c,cpp nnoremap <silent> <leader>fa  :"(*)Toggle source/header           "<c-U>call JumpToCorrespondingFile()<cr>
 
     " Jump to a file whose extension corresponds to the extension of the current
     " file. The `tags' file, created with:
@@ -158,22 +160,22 @@ if g:vim_confi_option.enable_map_useful
     " nnoremap <silent> <a-o>   :colder<cr>
     " nnoremap <silent> <a-i>   :cnewer<cr>
 
-    nnoremap <silent> <leader>o <C-o>
-    nnoremap <silent> <leader>i <C-i>
+    "nnoremap <silent> <leader>o <C-o>
+    "nnoremap <silent> <leader>i <C-i>
 
     " lsp-goto declare
     "nnoremap <silent> <leader>; ;fd
-    nnoremap <silent> <leader>; <C-]>
+    nnoremap <silent> <leader>;     <c-]>
     "inoremap <silent> <leader>[ <C-[>
 
     " Take as map hole
     "nnoremap <silent> <leader>,,,
 
     " Substitue for MaboXterm diable <c-h>
-    nnoremap <leader>h <c-w>h
-    nnoremap <leader>j <c-w>j
-    nnoremap <leader>k <c-w>k
-    nnoremap <leader>l <c-w>l
+    nnoremap <leader>h      <c-w>h
+    nnoremap <leader>j      <c-w>j
+    nnoremap <leader>k      <c-w>k
+    nnoremap <leader>l      <c-w>l
 
     " Replace by vim-tmux-navigator
     "nnoremap <c-h> <c-w>h
@@ -190,8 +192,8 @@ if g:vim_confi_option.enable_map_useful
     nnoremap <silent> <c-p> :cp<cr>
 
     " Navigate locallist
-    nnoremap <silent> <leader>n :lne<cr>
-    nnoremap <silent> <leader>p :lp<cr>
+    nnoremap <silent> <leader>n     :"(navigate)Next locallist           "<c-U>lne<cr>
+    nnoremap <silent> <leader>p     :"(navigate)Previous locallist       "<c-U>lp<cr>
 
 
     " nvim.terminal map {{{2
@@ -231,24 +233,18 @@ if g:vim_confi_option.enable_map_useful
 
     " Paste in insert mode
     inoremap <silent> <a-i> <c-r>"
-    silent! Shortcut! <leader><a-i> Paste in insert mode
 
-
-    nnoremap <leader>dt :%s/\s\+$//g
-    nnoremap <leader>dd :g/<C-R><C-w>/ norm dd
-    vnoremap <leader>dd :<c-u>g/<C-R>*/ norm dd
+    silent! Shortcut! <space>d      [vim-basic] Trim trail-spaces, Delete lines with the search pattern
+    nnoremap  <leader>dt    :"(*)Remove the trailing spaces             "<c-U>%s/\s\+$//g
+    nnoremap  <leader>dd    :"Remove the lines with search pattern      "<c-U>g/<C-R><C-w>/ norm dd
+    vnoremap  <leader>dd                                                :<c-U>g/<C-R>*/ norm dd
 
     " remove space from emptyline
     "nnoremap <leader>v<space> :%s/^\s\s*$//<CR>
     "vnoremap <leader>v<space> :s/^\s\s*$//<cr>
 
-    " count the number of occurrences of a word
-    "nnoremap <leader>vc :%s/<C-R>=expand('<cword>')<cr>//gn<cr>
-    nnoremap <leader>vn :%s///gn<cr>
-    silent! Shortcut! <space>vn    Tool count
 
     " For global replace
-    nnoremap <leader>vR gD:%s/<C-R>///g<left><left>
+    nnoremap <leader>vR gD:"Replace all              "<c-U>%s/<C-R>///g<left><left>
     "vnoremap <leader>vr ""y:%s/<C-R>=escape(@", '/\')<CR>/<C-R>=escape(@", '/\')<CR>/g<Left><Left>
-
 endif
