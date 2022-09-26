@@ -23,10 +23,6 @@ if g:vim_confi_option.enable_map_basic
     "" Stop that stupid window from popping up
     "map q: :q
 
-    "" Disable F1 built-in help key by: re-replace last search
-    "map <F1> :<c-u>%s///gc<cr>
-    map <F1> :"Replace the search            "<c-U>%s//<C-R>"/gc<cr>
-
     " map <leader><Esc> :AnsiEsc<cr>
     nnoremap <C-c> <silent> <C-c>
     "nnoremap <buffer> <Enter> <C-W><Enter>     | " vimwiki use this to create a new link
@@ -73,15 +69,16 @@ if g:vim_confi_option.enable_map_basic
     "noremap   ii <Esc>
     "noremap!  ii <Esc>
     " @ver4:
-    inoremap ,, <Esc>`^
-    onoremap ,, <Esc>`^
-    vnoremap ,, <Esc>`<
-    cnoremap ,, <c-u><Esc>
+    "inoremap ,, <Esc>`^
+    "onoremap ,, <Esc>`^
+    "vnoremap ,, <Esc>`<
+    "cnoremap ,, <c-u><Esc>
     " @ver5: save & exit insert-mode
     "inoremap jj <c-o>:w<cr><ESC>
     " @ver6: save & exit insert-mode
-    nnoremap <leader>w  :"Save/write file        "<c-U>w<cr><ESC>
-    nnoremap <leader>ww :"Save/write file        "<c-U>w<cr><ESC>
+
+    nnoremap <leader>w      :"Save/write file        "<c-U>w<cr><ESC>
+    nnoremap <leader>ww     :"Save/write file        "<c-U>w<cr><ESC>
 
     " Save in insert mode, comment out it for anoy when you input the letter 'k'.
     "inoremap kk <c-o>:w<cr>
@@ -94,9 +91,13 @@ if g:vim_confi_option.enable_map_basic
     nnoremap  ;^   :"(*)Popup search-pattern           "<c-U>g//p<cr>
     nnoremap  ;*   :"(*)Quickfix-sink search-pattern   "<c-U>cexpr []<cr> <bar>:<c-u>g//caddexpr expand("%") ..":" ..line(".") ..":0:" . getline(".")<cr> <bar>:copen<cr>
 
-    " Lazy macro repeat
-    nmap <leader>.  @@
+    "" Disable F1 built-in help key by: re-replace last search
+    "map <F1> :<c-u>%s///gc<cr>
+    nmap <F1>           :"(*)Continue replace all search-pattern    "<c-U>%s//<C-R>"/gc<cr>
+    nmap ;.             :"(*)Continue replace all search-pattern    "<c-U>%s//<C-R>"/gc<cr>
 
+    " Lazy macro repeat
+    nmap <leader>.      @@
 endif
 
 if g:vim_confi_option.enable_map_useful
