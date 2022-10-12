@@ -167,9 +167,10 @@ if g:vim_confi_option.enable_map_useful
     " lsp-goto declare
     "nnoremap <silent> <leader>; ;fd
 
-    " Sometimes <C-]> goto not work, maybe iskeyword changed, check by:
-    " :verbose setlocal iskeyword?
-    " So here add substitute <leader>; to jump tag
+    " https://stackoverflow.com/questions/34018825/jump-to-tag-ctrl-stopped-working
+    "   Sometimes <C-]> goto not work, maybe iskeyword changed, check by:
+    "     :verbose setlocal iskeyword?
+    "   So here add substitute <leader>; to jump tag
     nnoremap <silent> <leader>;     :"(navigate)Jump Tag           "<c-U>call VimMotionTag()<cr>
     "inoremap <silent> <leader>[ <C-[>
 
