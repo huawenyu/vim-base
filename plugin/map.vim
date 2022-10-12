@@ -166,7 +166,11 @@ if g:vim_confi_option.enable_map_useful
 
     " lsp-goto declare
     "nnoremap <silent> <leader>; ;fd
-    nnoremap <silent> <leader>;     <c-]>
+
+    " Sometimes <C-]> goto not work, maybe iskeyword changed, check by:
+    " :verbose setlocal iskeyword?
+    " So here add substitute <leader>; to jump tag
+    nnoremap <silent> <leader>;     :"(navigate)Jump Tag           "<c-U>call VimMotionTag()<cr>
     "inoremap <silent> <leader>[ <C-[>
 
     " Take as map hole
