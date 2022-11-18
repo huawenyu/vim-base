@@ -127,14 +127,28 @@ function! utils#GetFileFrmCursor()
     return [file_name, line_number]
 endfunction
 
+
 function! utils#GotoFileWithLineNum(newwin)
     let file_info = utils#GetFileFrmCursor()
     " Open new window if requested
     if a:newwin
         new
     endif
-    execute 'find ' . file_info[1] . ' ' . file_info[0]
+
+    " https://stackoverflow.com/questions/9458294/open-url-under-cursor-in-vim-with-browser
+    " gnome-open/xdg-open
+    let s:uri = matchstr(getline("."), '[a-z]*:\/\/[^ >,;]*')
+    if s:uri != ""
+        if exists(":W3mTab")
+            exec "W3mTab "..s:uri
+        else
+            echo "Please install vim-plug `w3m.vim` and command `w3m`."
+        endif
+    else
+        execute 'find ' . file_info[1] . ' ' . file_info[0]
+    endif
 endfunction
+
 
 " open file in previewwindow
 function! utils#GotoFileWithPreview()

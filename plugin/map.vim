@@ -240,7 +240,6 @@ if g:vim_confi_option.enable_map_useful
     " Paste in insert mode
     inoremap <silent> <a-i> <c-r>"
 
-    silent! Shortcut! <space>d      [vim-basic] Trim trail-spaces, Delete lines with the search pattern
     nnoremap  <leader>dt    :"(*)Remove the trailing spaces             "<c-U>%s/\s\+$//g
     nnoremap  <leader>dd    :"Remove the lines with search pattern      "<c-U>g/<C-R><C-w>/ norm dd
     vnoremap  <leader>dd                                                :<c-U>g/<C-R>*/ norm dd
