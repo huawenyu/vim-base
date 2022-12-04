@@ -230,18 +230,22 @@ function! utils#GetSelected(mode, ...)
             let lines = getline(lnum1, lnum2)
             let lines[-1] = lines[-1][: col2 - (&selection == 'inclusive' ? 1 : 2)]
             let lines[0] = lines[0][col1 - 1:]
-            let ret_str = join(lines, "\n")
+
+            if empty(fname)
+                let ret_str = join(lines, "\n")
+            else
+                call writefile(lines, fname)
+                echomsg len(lines).." lines yanked to file"
+                silent! norm gv
+                return
+            endif
         endif
     endif
 
     if empty(fname)
         return ret_str
     else
-        new
-        setlocal buftype=nofile bufhidden=hide noswapfile nobuflisted
-        put=ret_str
-        exec 'w! '. fname
-        q
+        call writefile(split(ret_str, "\n", 1), glob(fname))
     endif
 endfunction
 
