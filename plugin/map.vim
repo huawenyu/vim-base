@@ -161,8 +161,8 @@ if g:vim_confi_option.enable_map_useful
     " nnoremap <silent> <a-o>   :colder<cr>
     " nnoremap <silent> <a-i>   :cnewer<cr>
 
-    "nnoremap <silent> <leader>o <C-o>
-    "nnoremap <silent> <leader>i <C-i>
+    nnoremap <silent> <leader>o <C-o>
+    nnoremap <silent> <leader>i <C-i>
 
     " lsp-goto declare
     "nnoremap <silent> <leader>; ;fd
