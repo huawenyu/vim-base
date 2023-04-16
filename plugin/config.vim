@@ -193,7 +193,9 @@ set noshowmatch
 
 " Maybe only neovim support:
 "   https://vi.stackexchange.com/questions/18344/how-to-change-jumplist-behavior/23117
-set jumpoptions+=stack
+if has('nvim')
+    set jumpoptions+=stack
+endif
 
 if exists("g:vim_confi_option") && g:vim_confi_option.show_number
     set number
