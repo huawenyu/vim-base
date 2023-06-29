@@ -96,6 +96,10 @@ function! utils#VoomInsert(vsel)
     call cursor(line('.'), len - 3)
 endfunction
 
+
+" Smart guess the really exist file
+" a/file1.txt   ===> file1.txt
+" /code/file1.txt   ===> file1.txt
 function! utils#GetFileFrmCursor()
     " filename under the cursor
     let file_name = expand('<cfile>')
@@ -104,12 +108,20 @@ function! utils#GetFileFrmCursor()
         return
     endif
 
-    " Remove git prefix 'a/', 'b/' from filepath
+    " echo split('/go/src/github.com/MyDomain/MyProject', '[/\\]')
+    "     ['go', 'src', 'github.com', 'MyDomain', 'MyProject']
     if !filereadable(file_name)
-        let file_name = trim(file_name, "a/")
-    endif
-    if !filereadable(file_name)
-        let file_name = trim(file_name, "b/")
+        let pathLables = split(file_name, '[/\\]')
+
+        let c = 1
+        while c <= 6
+            let ftmp = join(pathLables[c:], '/')
+            if filereadable(ftmp)
+                let file_name = ftmp
+                break
+            endif
+            let c += 1
+        endwhile
     endif
 
     " look for a line number separated by a :
