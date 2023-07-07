@@ -72,48 +72,22 @@ set synmaxcol=200
 syntax on
 set synmaxcol=200
 
-if HasPlug('holokai')
+"Set by
+"  :colorscheme <enter>
+"Check-Current-Color
+"  :echo g:colors_name
+"
+" default colorscheme
+if HasPlug('jellybeans.vim')
     "set t_Co=256
     set background=dark
-    silent! colorscheme holokai     | "Come from Plug 'vim-scripts/holokai'
+    silent! colorscheme jellybeans
 endif
 
-if HasPlug('seoul256.vim')
-    "set t_Co=256
-    " seoul256 (dark):
-    "   Range:   233 (darkest) ~ 239 (lightest)
-    "   Default: 237
-    let g:seoul256_background = 236
-    set background=dark
-    silent! colorscheme seoul256
-
-    let g:seoul256_srgb = 1    | " urxvt
-
-    "colo seoul256-light
-    "set background=light
-
-    "When loaded, soul256.vim will set up two global variables so that you can use them to customize other plugins:
-    " g:seoul256_current_fg - Current foreground color in ANSI code
-    " g:seoul256_current_bg - Current background color in ANSI code
+"different colorscheme for ruby and markdown
+if HasPlug('material.nvim')
+    autocmd FileType markdown colorscheme material-deep-ocean
 endif
-
-"colorscheme badwolf
-"colorscheme distinguished
-"colorscheme darkspectrum
-"colorscheme molokai
-"colorscheme jellybeans
-"colorscheme dracula
-"
-"let g:gruvbox_italic=1
-"let g:gruvbox_termcolors=16
-"let g:gruvbox_contrast_dark='hard'
-"colorscheme gruvbox
-"
-"set background=light
-"colorscheme PaperColor
-"
-"set background=light
-"colo seoul256-light
 
 
 if has('mouse')
