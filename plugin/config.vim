@@ -88,6 +88,9 @@ endif
 if HasPlug('material.nvim')
     autocmd FileType markdown colorscheme material-deep-ocean
 endif
+if HasPlug('holokai')
+    autocmd FileType tcl,expect colorscheme holokai
+endif
 
 
 if has('mouse')
