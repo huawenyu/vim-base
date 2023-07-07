@@ -89,6 +89,7 @@ if HasPlug('material.nvim')
     autocmd FileType markdown colorscheme material-deep-ocean
 endif
 if HasPlug('holokai')
+    autocmd FileType expect set ft=tcl
     autocmd FileType tcl,expect colorscheme holokai
 endif
 
