@@ -78,10 +78,18 @@ set synmaxcol=200
 "  :echo g:colors_name
 "
 " default colorscheme
+set background=dark
 if HasPlug('jellybeans.vim')
     "set t_Co=256
-    set background=dark
     silent! colorscheme jellybeans
+
+    "====status bar colors===
+    " au InsertEnter * hi statusline guifg=black guibg=#d7afff ctermfg=black ctermbg=magenta
+    " au InsertLeave * hi statusline guifg=black guibg=#8fbfdc ctermfg=black ctermbg=cyan
+    " hi statusline guifg=black guibg=#8fbfdc ctermfg=black ctermbg=cyan
+
+    " hi Statusline   guifg==#444444 guibg=#dadada ctermfg=238 ctermbg=253
+    " hi StatusLineNC guifg=#808080  guibg=#080808 ctermfg=244 ctermbg=232
 endif
 
 "different colorscheme for ruby and markdown
