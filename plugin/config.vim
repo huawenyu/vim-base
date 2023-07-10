@@ -79,7 +79,6 @@ set synmaxcol=200
 "
 " default colorscheme
 set background=dark
-autocmd FileType expect set ft=tcl
 if HasPlug('jellybeans.vim')
     "set t_Co=256
     silent! colorscheme jellybeans
@@ -98,6 +97,10 @@ if HasPlug('material.nvim')
     autocmd FileType markdown colorscheme material-deep-ocean
 endif
 
+autocmd FileType expect set ft=tcl
+if HasPlug('holokai')
+    autocmd FileType tcl colorscheme holokai
+endif
 
 if has('mouse')
   set mouse=a
