@@ -79,6 +79,7 @@ set synmaxcol=200
 "
 " default colorscheme
 set background=dark
+autocmd FileType expect set ft=tcl
 if HasPlug('jellybeans.vim')
     "set t_Co=256
     silent! colorscheme jellybeans
@@ -95,10 +96,6 @@ endif
 "different colorscheme for ruby and markdown
 if HasPlug('material.nvim')
     autocmd FileType markdown colorscheme material-deep-ocean
-endif
-if HasPlug('holokai')
-    autocmd FileType expect set ft=tcl
-    autocmd FileType tcl,expect colorscheme holokai
 endif
 
 
