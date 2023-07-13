@@ -139,6 +139,8 @@ endif
 "set shortmess-=oO
 "set shortmess=aoOtTI
 set shortmess-=S
+" Disable echomsg filename
+set shortmess+=F
 set shortmess+=filmnrxoOtT  " Abbrev. of messages (avoids 'hit enter')
 "set paste           " conflict with auto-pairs, delimitmate, auto-close plugin
 "set showcmd
