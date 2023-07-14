@@ -98,9 +98,9 @@ if HasPlug('material.nvim')
 endif
 
 autocmd FileType expect set ft=tcl
-" if HasPlug('holokai')
-"     autocmd FileType tcl colorscheme holokai
-" endif
+if HasPlug('holokai')
+    autocmd FileType tcl colorscheme holokai
+endif
 
 if has('mouse')
   set mouse=a
