@@ -20,7 +20,12 @@ else
     "set term=xterm-256color
 endif
 
-set guifont=Liberation\ Mono\ 13
+if WINDOWS()
+    set guifont=Consolas:h11:cANSI
+else
+    set guifont=Liberation\ Mono\ 13
+endif
+
 scriptencoding utf-8
 
 set formatoptions+=m
