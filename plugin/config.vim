@@ -21,7 +21,7 @@ else
 endif
 
 if WINDOWS()
-    set guifont=Consolas:h11:cANSI
+    set guifont=Courier:h14:cANSI
 else
     set guifont=Liberation\ Mono\ 13
 endif
