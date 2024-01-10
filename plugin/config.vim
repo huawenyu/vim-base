@@ -31,6 +31,7 @@ scriptencoding utf-8
 set formatoptions+=m
 set formatoptions+=B
 set ffs=unix,dos,mac
+set clipboard^=unnamed,unnamedplus
 
 if exists("g:vim_confi_option") && g:vim_confi_option.view_folding
     if has('folding')
