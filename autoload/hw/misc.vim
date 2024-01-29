@@ -187,9 +187,8 @@ function! hw#misc#GetWord(mode)
         silent! call s:log.info(l:__func__, "debug:", wordStr)
         if wordStr =~ "^http"
             return wordStr
-        else
-            return "http://www.google.com"
         endif
+        return ""
     endif
 
     return hw#misc#GetCursorWord()

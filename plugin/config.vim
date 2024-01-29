@@ -2,6 +2,7 @@ if exists('g:loaded_hw_basic_conf') || &compatible
   finish
 endif
 let g:loaded_hw_basic_conf = 1
+silent! let s:log = logger#getLogger(expand('<sfile>:t'))
 
 if has("nvim")
     "let base16colorspace=256
@@ -265,5 +266,87 @@ function! s:MyStartPage()
 endfun
 call s:MyStartPage()
 
+
+let g:vim_basic_map = get(g:, 'vim_basic_map', 1)
+if g:vim_basic_map
+
+    " URL encode a string. ie. Percent-encode characters as necessary.
+    function! s:urlEncode(string)
+        let result = ""
+        let characters = split(a:string, '.\zs')
+        for character in characters
+            if character == " "
+                let result = result . "+"
+            elseif <SID>urlCharNeedEncoding(character)
+                let i = 0
+                while i < strlen(character)
+                    let byte = strpart(character, i, 1)
+                    let decimal = char2nr(byte)
+                    let result = result . "%" . printf("%02x", decimal)
+                    let i += 1
+                endwhile
+            else
+                let result = result . character
+            endif
+        endfor
+
+        return result
+    endfunction
+
+    " Returns 1 if the given character should be percent-encoded in a URL encoded
+    " string.
+    function! s:urlCharNeedEncoding(character)
+        let ascii_code = char2nr(a:character)
+        if ascii_code >= 48 && ascii_code <= 57
+            return 0
+        elseif ascii_code >= 65 && ascii_code <= 90
+            return 0
+        elseif ascii_code >= 97 && ascii_code <= 122
+            return 0
+        elseif a:character == "-" || a:character == "_" || a:character == "." || a:character == "~"
+            return 0
+        endif
+
+        return 1
+    endfunction
+
+    function! s:GuessLink(mode)
+        let l:__func__ = "GuessLink"
+        let urlLink = hw#misc#GetWord('http')
+        if len(urlLink) > 0
+            exec 'W3mTab '..urlLink
+            return
+        endif
+
+        let file_info = utils#GetFileFrmCursor()
+        let l:bn = bufnr(file_info[0])
+        if l:bn > 0
+            exec "buffer ".. l:bn
+            return
+        endif
+
+        if &ft == "c"
+            call utils#GotoFileWithPreview()
+        else
+            let words = hw#misc#GetWord(a:mode)
+            silent! call s:log.info(l:__func__, "words=", words)
+            if len(words) > 0
+                let searchUrl = 'http://www.google.com/search?q='..words
+                " let searchUrl = <SID>urlEncode(searchUrl)
+                silent! call s:log.info(l:__func__, "url=", searchUrl)
+                exec 'FloatermNew w3m '..searchUrl
+                return
+            endif
+        endif
+    endfun
+
+    nnoremap <silent>          gf :"open File:number          "<c-U>call utils#GotoFileWithLineNum(0)<CR>
+    "nnoremap <silent> <leader>gf :"open File in preview window   "<c-U>call utils#GotoFileWithPreview()<CR>
+    nnoremap <silent>  <leader>gf     :"(tool)Goto file       "<c-U>call <SID>GuessLink('n')<cr>
+    vnoremap <silent>  <leader>gf     :"(tool)Goto file       "<c-U>call <SID>GuessLink('v')<cr>
+
+    if HasPlug('w3m.vim') | " {{{1
+    endif
+endif
 
 " vim:set ft=vim et sw=4:
