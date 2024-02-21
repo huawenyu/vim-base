@@ -163,13 +163,8 @@ endfunction
 
 
 " open file in previewwindow
-function! utils#GotoFileWithPreview()
+function! utils#PreviewTheCmd(cmdStr)
     call genutils#MarkActiveWindow()
-    let file_info = utils#GetFileFrmCursor()
-    if len(file_info) == 0
-        echo 'No file under cursor.'
-        return
-    endif
 
     let l:act_nr = winnr()
     let l:have_preview = 0
@@ -197,12 +192,12 @@ function! utils#GotoFileWithPreview()
 
     if l:preview_nr > 0
         call genutils#MoveCursorToWindow(l:preview_nr)
-        execute 'find ' . file_info[1] . ' ' . file_info[0]
+        execute a:cmdStr
     else
         let winnr = genutils#GetPreviewWinnr()
         if winnr > 0
             call genutils#MoveCursorToWindow(winnr)
-            execute 'find ' . file_info[1] . ' ' . file_info[0]
+            execute a:cmdStr
         endif
     endif
 

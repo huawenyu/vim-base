@@ -231,7 +231,8 @@ if g:vim_confi_option.enable_map_useful
 
     " Automatically jump to end of text you pasted
     "vnoremap <silent> y y`]
-    vnoremap <silent> p p`]
+    "vnoremap <silent> p p`]
+    "vnoremap <silent> p "_dP`]
     nnoremap <silent> p p`]
 
     " now it is possible to paste many times over selected text

@@ -100,14 +100,14 @@ if HasPlug('jellybeans.vim')
 endif
 
 "different colorscheme for ruby and markdown
-if HasPlug('material.nvim')
-    autocmd FileType markdown colorscheme material-deep-ocean
-endif
+" if HasPlug('material.nvim')
+"     autocmd FileType markdown colorscheme material-deep-ocean
+" endif
 
 autocmd FileType expect set ft=tcl
-if HasPlug('holokai')
-    autocmd FileType tcl colorscheme holokai
-endif
+" if HasPlug('holokai')
+"     autocmd FileType tcl colorscheme holokai
+" endif
 
 if has('mouse')
   set mouse=a
@@ -321,12 +321,18 @@ if g:vim_basic_map
         let file_info = utils#GetFileFrmCursor()
         let l:bn = bufnr(file_info[0])
         if l:bn > 0
-            exec "buffer ".. l:bn
+            call utils#PreviewTheCmd("buffer ".. l:bn)
             return
         endif
 
-        if &ft == "c"
-            call utils#GotoFileWithPreview()
+        if &ft != "markdown"
+            silent! call s:log.info(l:__func__, "filePreview")
+
+            let file_info = utils#GetFileFrmCursor()
+            if len(file_info) > 0
+                call utils#PreviewTheCmd('find '.. file_info[1].. ' '.. file_info[0])
+                return
+            endif
         else
             let words = hw#misc#GetWord(a:mode)
             silent! call s:log.info(l:__func__, "words=", words)
@@ -341,7 +347,7 @@ if g:vim_basic_map
     endfun
 
     nnoremap <silent>          gf :"open File:number          "<c-U>call utils#GotoFileWithLineNum(0)<CR>
-    "nnoremap <silent> <leader>gf :"open File in preview window   "<c-U>call utils#GotoFileWithPreview()<CR>
+    "nnoremap <silent> <leader>gf :"open File in preview window   "<c-U>call utils#PreviewTheCmd()<CR>
     nnoremap <silent>  <leader>gf     :"(tool)Goto file       "<c-U>call <SID>GuessLink('n')<cr>
     vnoremap <silent>  <leader>gf     :"(tool)Goto file       "<c-U>call <SID>GuessLink('v')<cr>
 
