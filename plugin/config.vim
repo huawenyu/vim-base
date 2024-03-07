@@ -167,7 +167,14 @@ set ssop+=curdir     " do not store absolute path
 set ssop-=sesdir     " work under current dir as relative path
 
 " Check: verbose set modeline?
-"set nomodeline     " Maybe it's better to enable the modeline
+" Maybe it's better to enable the modeline
+if exists("g:vim_confi_option")
+    if g:vim_confi_option.modeline
+        set modeline
+    else
+        set nomodeline
+    endif
+endif
 
 set visualbell
 set noerrorbells
