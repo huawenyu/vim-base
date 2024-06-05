@@ -328,7 +328,7 @@ if g:vim_basic_map
         let file_info = utils#GetFileFrmCursor()
         let l:bn = bufnr(file_info[0])
         if l:bn > 0
-            call utils#PreviewTheCmd("buffer ".. l:bn)
+            call utils#PreviewTheCmd("buffer " .. l:bn .. "|" .. file_info[2] .. "|normal " .. "mO")
             return
         endif
 

@@ -125,18 +125,20 @@ function! utils#GetFileFrmCursor()
     endif
 
     " look for a line number separated by a :
-    let line_number = ""
+    let line_num = ""
+    let line_num2 = ""
     let save_pos = getpos(".")
     if search('\%#\f*:\zs[0-9]\+')
         " change the 'iskeyword' option temporarily to pick up just numbers
         let temp = &iskeyword
         set iskeyword=48-57
-        let line_number = "+". expand('<cword>')
+        let line_num = expand('<cword>')
+        let line_num2 = "+". line_num
         exe 'set iskeyword=' . temp
     endif
     call setpos('.', save_pos)
 
-    return [file_name, line_number]
+    return [file_name, line_num2, line_num]
 endfunction
 
 
