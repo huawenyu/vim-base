@@ -327,11 +327,16 @@ if g:vim_basic_map
 
         let file_info = utils#GetFileFrmCursor()
         if len(file_info) > 0
-            let l:bn = bufnr(file_info[0])
+            fname = file_info[0]
+            if fname[0:0] !=  '/'
+                fname = getcwd() .. '/' .. fname
+            endif
+
+            let l:bn = bufnr(fname)
             if l:bn > 0
                 call utils#PreviewTheCmd("buffer " .. l:bn .. "|" .. file_info[2] .. "|normal " .. "mO")
                 return
-            elseif filereadable(file_info[0])
+            elseif filereadable(fname)
                 call utils#PreviewTheCmd("edit " .. file_info[0] .. "|normal " .. "mO")
                 return
             endif
