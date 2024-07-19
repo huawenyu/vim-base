@@ -326,16 +326,20 @@ if g:vim_basic_map
         endif
 
         let file_info = utils#GetFileFrmCursor()
-        let l:bn = bufnr(file_info[0])
-        if l:bn > 0
-            call utils#PreviewTheCmd("buffer " .. l:bn .. "|" .. file_info[2] .. "|normal " .. "mO")
-            return
+        if len(file_info) > 0
+            let l:bn = bufnr(file_info[0])
+            if l:bn > 0
+                call utils#PreviewTheCmd("buffer " .. l:bn .. "|" .. file_info[2] .. "|normal " .. "mO")
+                return
+            elseif filereadable(file_info[0])
+                call utils#PreviewTheCmd("edit " .. file_info[0] .. "|normal " .. "mO")
+                return
+            endif
         endif
 
         if &ft != "markdown"
             silent! call s:log.info(l:__func__, "filePreview")
 
-            let file_info = utils#GetFileFrmCursor()
             if len(file_info) > 0
                 call utils#PreviewTheCmd('find '.. file_info[1].. ' '.. file_info[0])
                 return
