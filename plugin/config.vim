@@ -317,6 +317,19 @@ if g:vim_basic_map
         return 1
     endfunction
 
+    " Function to check if a string is a valid file path format
+    function! s:IsValidFilePath(path)
+        " Regular expression pattern for a basic file path
+        let l:pattern = '\m^\/\(\w\|\.\|\-\|\_\|\/\)*$'
+
+        " Check if the path matches the pattern
+        if a:path =~ l:pattern
+            return 1
+        else
+            return 0
+        endif
+    endfunction
+
     function! s:GuessLink(mode)
         let l:__func__ = "GuessLink"
         let urlLink = hw#misc#GetWord('http')
@@ -342,13 +355,22 @@ if g:vim_basic_map
             endif
         endif
 
+        if len(file_info) > 0
+            fname = file_info[0]
+        else
+            fname = ""
+        endif
+
         if &ft != "markdown"
             silent! call s:log.info(l:__func__, "filePreview")
 
             if len(file_info) > 0
-                call utils#PreviewTheCmd('find '.. file_info[1].. ' '.. file_info[0])
+                call utils#PreviewTheCmd("edit " .. file_info[0] .. "|normal " .. "mO")
                 return
             endif
+        elseif s:IsValidFilePath(fname)
+            call utils#PreviewTheCmd('find '.. file_info[1].. ' '.. fname)
+            return
         else
             let words = hw#misc#GetWord(a:mode)
             silent! call s:log.info(l:__func__, "words=", words)
