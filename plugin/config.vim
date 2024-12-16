@@ -340,7 +340,7 @@ if g:vim_basic_map
 
         let file_info = utils#GetFileFrmCursor()
         if len(file_info) > 0
-            fname = file_info[0]
+            let fname = file_info[0]
             if fname[0:0] !=  '/'
                 fname = getcwd() .. '/' .. fname
             endif
@@ -356,9 +356,9 @@ if g:vim_basic_map
         endif
 
         if len(file_info) > 0
-            fname = file_info[0]
+            let fname = file_info[0]
         else
-            fname = ""
+            let fname = ""
         endif
 
         if &ft != "markdown"
