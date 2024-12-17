@@ -319,11 +319,11 @@ if g:vim_basic_map
 
     " Function to check if a string is a valid file path format
     function! s:IsValidFilePath(path)
-        " Regular expression pattern for a basic file path
-        let l:pattern = '\m^\/\(\w\|\.\|\-\|\_\|\/\)*$'
+        " Extract the directory part from the path
+        let l:dir = fnamemodify(a:path, ':h')
 
-        " Check if the path matches the pattern
-        if a:path =~ l:pattern
+        " Check if the directory exists
+        if isdirectory(l:dir)
             return 1
         else
             return 0
@@ -355,12 +355,6 @@ if g:vim_basic_map
             endif
         endif
 
-        if len(file_info) > 0
-            let fname = file_info[0]
-        else
-            let fname = ""
-        endif
-
         if &ft != "markdown"
             silent! call s:log.info(l:__func__, "filePreview")
 
@@ -368,19 +362,20 @@ if g:vim_basic_map
                 call utils#PreviewTheCmd("edit " .. file_info[0] .. "|normal " .. "mO")
                 return
             endif
-        elseif s:IsValidFilePath(fname)
-            call utils#PreviewTheCmd('find '.. file_info[1].. ' '.. fname)
-            return
         else
-            let words = hw#misc#GetWord(a:mode)
-            silent! call s:log.info(l:__func__, "words=", words)
-            if len(words) > 0
-                let searchUrl = 'http://www.google.com/search?q='..words
-                " let searchUrl = <SID>urlEncode(searchUrl)
-                silent! call s:log.info(l:__func__, "url=", searchUrl)
-                exec 'FloatermNew w3m '..searchUrl
+            if len(file_info) > 0 && s:IsValidFilePath(fname)
+                call utils#PreviewTheCmd("edit " .. file_info[0] .. "|normal " .. "mO")
                 return
-            endif
+            else
+                let words = hw#misc#GetWord(a:mode)
+                silent! call s:log.info(l:__func__, "words=", words)
+                if len(words) > 0
+                    let searchUrl = 'http://www.google.com/search?q='..words
+                    " let searchUrl = <SID>urlEncode(searchUrl)
+                    silent! call s:log.info(l:__func__, "url=", searchUrl)
+                    exec 'FloatermNew w3m '..searchUrl
+                    return
+                endif
         endif
     endfun
 
