@@ -342,7 +342,7 @@ if g:vim_basic_map
         if len(file_info) > 0
             let fname = file_info[0]
             if fname[0:0] !=  '/'
-                fname = getcwd() .. '/' .. fname
+                let fname = getcwd() .. '/' .. fname
             endif
 
             let l:bn = bufnr(fname)
