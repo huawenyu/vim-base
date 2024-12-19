@@ -42,12 +42,12 @@ if g:vim_confi_option.enable_map_basic
 
     inoremap <S-Tab> <C-V><Tab>
 
-    noremap  j gj
-    vnoremap j gj
-    noremap  k gk
-    vnoremap k gk
-    vnoremap > >gv
-    vnoremap < <gv
+    noremap  <silent> j  gj
+    vnoremap <silent> j  gj
+    noremap  <silent> k  gk
+    vnoremap <silent> k  gk
+    vnoremap <silent> >  >gv
+    vnoremap <silent> <  <gv
 
     " " H/L - jump to start/end of line (^/$)
     " " J/K - jump down/up half a screen (C-d/C-u)
