@@ -247,33 +247,6 @@ set wildignore+=*.gba,*.sfc,*.078,*.nds,*.smd,*.smc
 set wildignore+=*.linux2,*.win32,*.darwin,*.freebsd,*.linux,*.android
 
 
-function! s:MyStartPage()
-    if exists("g:vim_confi_option") && len(g:vim_confi_option.auto_session)
-        if filereadable(expand(g:vim_confi_option.auto_session))
-            "source Session.vim
-            execute 'source '. expand(g:vim_confi_option.auto_session)
-            return
-        endif
-    endif
-
-    if exists("g:vim_confi_option") && len(g:vim_confi_option.start_page)
-        if HasPlug('startscreen.vim') && filereadable(expand(g:vim_confi_option.start_page))
-            function! MyStartPage()
-                " Read on our TODO file
-                "read ~/TODO
-                execute 'read '. expand(g:vim_confi_option.start_page)
-                " Some margin for readability
-                :silent %>>
-                " Go to line 1
-                " :1
-            endfun
-            let g:Startscreen_function = function('MyStartPage')
-        endif
-    endif
-endfun
-call s:MyStartPage()
-
-
 let g:vim_basic_map = get(g:, 'vim_basic_map', 1)
 if g:vim_basic_map
 
