@@ -67,10 +67,10 @@ set winminheight=0
 " Disable preview window in neosnippet candidates.
 set completeopt-=preview
 
-" Vim status bar prediction/completion
-"set wildmode=longest,list,full
-set wildmode=longest:full,full
-set wildmenu
+" " Vim status bar prediction/completion
+" "set wildmode=longest,list,full
+" set wildmode=longest:full,full
+" set wildmenu
 
 " syntax enable
 syntax on
